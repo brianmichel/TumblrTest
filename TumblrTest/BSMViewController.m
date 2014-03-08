@@ -7,21 +7,97 @@
 //
 
 #import <Mantle/Mantle.h>
+#import <YapDatabase/YapDatabase.h>
 #import "BSMViewController.h"
 #import "BSMPost.h"
 #import "BSMTumblrDatabase.h"
+#import "YapDatabaseView+BSM.h"
 
-@interface BSMViewController ()
+NSString * const CollectionViewCellID = @"cell";
+NSString * const DashboardViewID = @"dashboard";
+
+@interface BSMViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) dispatch_queue_t processingQueue;
+@property (strong) YapDatabaseConnection *connection;
+@property (strong) YapDatabaseViewMappings *mappings;
+
+@property (strong) UICollectionView *collectionView;
 @end
 
 @implementation BSMViewController
 
+- (void)commonInit {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellID];
+    self.collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    
+    self.processingQueue = dispatch_queue_create("com.bsm.tumblr.processing", DISPATCH_QUEUE_CONCURRENT);
+    [[BSMTumblrDatabase sharedDatabase] registerView:[YapDatabaseView bsm_dashboardPostsView] withName:DashboardViewID];
+    NSLog(@"ALL EXTENSIONS: %@", [[BSMTumblrDatabase sharedDatabase] allViews]);
+    
+    self.connection = [[BSMTumblrDatabase sharedDatabase] newLonglivedDatabaseConnection];
+    self.mappings = [[YapDatabaseViewMappings alloc] initWithGroups:@[@"posts"] view:DashboardViewID];
+    
+    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        [self.mappings updateWithTransaction:transaction];
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(yapDatabaseModified:) name:YapDatabaseModifiedNotification object:self.connection.database];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.processingQueue = dispatch_queue_create("com.bsm.tumblr.processing", DISPATCH_QUEUE_CONCURRENT);
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.collectionView];
+    [self fetchNewPosts];
+}
+
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
     
+    [self.collectionView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+}
+
+#pragma mark - UICollectionViewDataSource / UICollectionViewDelegate
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return self.mappings.numberOfSections;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [self.mappings numberOfItemsInSection:section];
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UIEdgeInsets insets = collectionView.contentInset;
+    return CGSizeMake(collectionView.frame.size.width - (insets.left + insets.right), 200);
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellID forIndexPath:indexPath];
+    
+    cell.backgroundColor = [UIColor redColor];
+    
+    return cell;
+}
+
+#pragma mark - Networking
+- (void)fetchNewPosts {
+    //todo need to store offsets
     [[TMAPIClient sharedInstance] dashboard:nil callback:^(id dashboard, NSError *error) {
         if (dashboard) {
             dispatch_async(self.processingQueue, ^{
@@ -29,20 +105,33 @@
                 for (NSDictionary *post in posts) {
                     NSError *error = nil;
                     BSMPost *postModel = [MTLJSONAdapter modelOfClass:[BSMPost class] fromJSONDictionary:post error:&error];
-                    [[BSMTumblrDatabase sharedDatabase] savePost:postModel];
+                    [[BSMTumblrDatabase sharedDatabase] savePost:postModel withCallback:nil];
                     NSLog(@"BASE POST: %@", postModel);
                 }
             });
         }
-
+        
     }];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Notifications
+- (void)yapDatabaseModified:(NSNotification *)notification {
+    NSArray *notifications = [self.connection beginLongLivedReadTransaction];
+
+    NSArray *sectionChanges = nil;
+    NSArray *rowChanges = nil;
+    
+    [[self.connection ext:DashboardViewID] getSectionChanges:&sectionChanges
+                                                  rowChanges:&rowChanges
+                                            forNotifications:notifications
+                                                withMappings:self.mappings];
+    
+    NSLog(@"SECTION CHANGES: %@", sectionChanges);
+    NSLog(@"ROW CHANGES: %@", rowChanges);
 }
 
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

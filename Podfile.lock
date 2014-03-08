@@ -27,6 +27,7 @@ PODS:
   - TMTumblrSDK/AppClient (1.0.6):
     - TMTumblrSDK/Core
   - TMTumblrSDK/Core (1.0.6)
+  - UIView+AutoLayout (1.2.0)
   - YapDatabase (2.4):
     - CocoaLumberjack (~> 1.6.3)
 
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - Mantle
   - SDWebImage
   - TMTumblrSDK
+  - UIView+AutoLayout
   - YapDatabase
 
 SPEC CHECKSUMS:
@@ -42,6 +44,7 @@ SPEC CHECKSUMS:
   Mantle: de026e86c183c5adfd453c1d8419babb787fea97
   SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
   TMTumblrSDK: cc16af8cfc8124926ab202455c1a6c87ff8725b3
+  UIView+AutoLayout: 1bcec87eaa77ffa088dc37e061d25fdead740089
   YapDatabase: 3e1159ee9540859342bf2869a86dd9e434548c45
 
 COCOAPODS: 0.29.0

@@ -24,6 +24,7 @@
 		48BC711F18CB5B3F00706E01 /* TumblrTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BC711E18CB5B3F00706E01 /* TumblrTestTests.m */; };
 		48C4A69F18CB623F00AF6950 /* BSMPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C4A69E18CB623F00AF6950 /* BSMPost.m */; };
 		48C4A6AA18CB790800AF6950 /* BSMTumblrDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C4A6A918CB790800AF6950 /* BSMTumblrDatabase.m */; };
+		48C4A6B018CB895F00AF6950 /* YapDatabaseView+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C4A6AF18CB895F00AF6950 /* YapDatabaseView+BSM.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		48C4A69E18CB623F00AF6950 /* BSMPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMPost.m; path = Source/BSMPost.m; sourceTree = "<group>"; };
 		48C4A6A818CB790800AF6950 /* BSMTumblrDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMTumblrDatabase.h; path = Source/BSMTumblrDatabase.h; sourceTree = "<group>"; };
 		48C4A6A918CB790800AF6950 /* BSMTumblrDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMTumblrDatabase.m; path = Source/BSMTumblrDatabase.m; sourceTree = "<group>"; };
+		48C4A6AE18CB895F00AF6950 /* YapDatabaseView+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "YapDatabaseView+BSM.h"; path = "Source/YapDatabaseView+BSM.h"; sourceTree = "<group>"; };
+		48C4A6AF18CB895F00AF6950 /* YapDatabaseView+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "YapDatabaseView+BSM.m"; path = "Source/YapDatabaseView+BSM.m"; sourceTree = "<group>"; };
 		ABCDB4E400144746A9FE27E9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB45CAA838AD4A2F82F4A47B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,6 +127,7 @@
 		48BC70F918CB5B3F00706E01 /* TumblrTest */ = {
 			isa = PBXGroup;
 			children = (
+				48C4A6B218CB899000AF6950 /* Categories */,
 				48C4A69C18CB622400AF6950 /* Model */,
 				48BC710218CB5B3F00706E01 /* BSMAppDelegate.h */,
 				48BC710318CB5B3F00706E01 /* BSMAppDelegate.m */,
@@ -174,6 +178,15 @@
 				48C4A6A918CB790800AF6950 /* BSMTumblrDatabase.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		48C4A6B218CB899000AF6950 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				48C4A6AE18CB895F00AF6950 /* YapDatabaseView+BSM.h */,
+				48C4A6AF18CB895F00AF6950 /* YapDatabaseView+BSM.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +327,7 @@
 				48BC710418CB5B3F00706E01 /* BSMAppDelegate.m in Sources */,
 				48C4A6AA18CB790800AF6950 /* BSMTumblrDatabase.m in Sources */,
 				48BC710A18CB5B3F00706E01 /* BSMViewController.m in Sources */,
+				48C4A6B018CB895F00AF6950 /* YapDatabaseView+BSM.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
