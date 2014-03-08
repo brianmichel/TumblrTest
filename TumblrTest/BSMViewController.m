@@ -18,7 +18,7 @@ NSString * const CollectionViewCellID = @"cell";
 NSString * const DashboardViewID = @"dashboard";
 
 const NSInteger BSMViewControllerNumberOfItemsPerPage = 20;
-const CGFloat BSMViewControllerScrollLoadThreshhold = 0.8;
+const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
 
 @interface BSMViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) dispatch_queue_t processingQueue;
@@ -80,6 +80,7 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.8;
     [super viewDidAppear:animated];
     [self.refreshControl beginRefreshing];
     [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, -self.refreshControl.frame.size.height) animated:YES];
+    [self didBeginRefreshing:self.refreshControl];
 }
 
 - (void)updateViewConstraints {
@@ -120,10 +121,13 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.8;
     CGFloat contentSizeHeight = scrollView.contentSize.height;
     CGFloat scrollViewHeight = scrollView.frame.size.height;
     
+    static CGFloat lastPercentageScrolled = 0.0;
+
     CGFloat percentageScrolled = (offsetY + scrollViewHeight) / contentSizeHeight;
-    if (percentageScrolled > BSMViewControllerScrollLoadThreshhold && !self.loading) {
+    if (percentageScrolled > BSMViewControllerScrollLoadThreshhold && percentageScrolled > lastPercentageScrolled && !self.loading) {
         [self fetchNextPageOfPosts];
     }
+    lastPercentageScrolled = percentageScrolled;
 }
 
 #pragma mark - Networking
