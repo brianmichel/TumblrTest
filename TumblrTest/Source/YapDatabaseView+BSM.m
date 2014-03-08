@@ -23,9 +23,15 @@
     YapDatabaseViewSortingBlock sortingBlock = ^ NSComparisonResult (NSString *group, NSString *collection1, NSString *key1, id object1,NSString *collection2, NSString *key2, id object2) {
         BSMPost *post1 = object1;
         BSMPost *post2 = object2;
-        return [post1.postID compare:post2.postID];
+        if ([post1.postID integerValue] < [post2.postID integerValue]) {
+            return NSOrderedDescending;
+        } else if ([post1.postID integerValue] > [post2.postID integerValue]) {
+            return NSOrderedAscending;
+        } else {
+            return NSOrderedSame;
+        }
     };
-    YapDatabaseView *dashboardPostsView = [[YapDatabaseView alloc] initWithGroupingBlock:groupingBlock groupingBlockType:groupingBlockType sortingBlock:sortingBlock sortingBlockType:sortingBlockType];
+    YapDatabaseView *dashboardPostsView = [[YapDatabaseView alloc] initWithGroupingBlock:groupingBlock groupingBlockType:groupingBlockType sortingBlock:sortingBlock sortingBlockType:sortingBlockType versionTag:@"1"];
     
     return dashboardPostsView;
 }

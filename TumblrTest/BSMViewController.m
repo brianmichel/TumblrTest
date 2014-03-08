@@ -12,6 +12,7 @@
 #import "BSMPost.h"
 #import "BSMTumblrDatabase.h"
 #import "YapDatabaseView+BSM.h"
+#import "BSMPostBaseCell.h"
 
 NSString * const CollectionViewCellID = @"cell";
 NSString * const DashboardViewID = @"dashboard";
@@ -30,8 +31,7 @@ NSString * const DashboardViewID = @"dashboard";
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellID];
-    self.collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:CollectionViewCellID];
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     self.collectionView.dataSource = self;
@@ -64,7 +64,7 @@ NSString * const DashboardViewID = @"dashboard";
     [super viewDidLoad];
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.collectionView];
-    [self fetchNewPosts];
+    //[self fetchNewPosts];
 }
 
 - (void)updateViewConstraints {
@@ -88,8 +88,14 @@ NSString * const DashboardViewID = @"dashboard";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellID forIndexPath:indexPath];
+    BSMPostBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellID forIndexPath:indexPath];
     
+    __block BSMPost *post = nil;
+    NSString *group = [self.mappings groupForSection:indexPath.section];
+    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        post = [[transaction ext:DashboardViewID] objectAtIndex:indexPath.row inGroup:group];
+    }];
+    cell.post = post;
     cell.backgroundColor = [UIColor redColor];
     
     return cell;

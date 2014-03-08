@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3B5FA79C6ABC4C439F7EB7CD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABCDB4E400144746A9FE27E9 /* libPods.a */; };
+		4829199B18CB9F52003117A8 /* BSMPostBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4829199A18CB9F52003117A8 /* BSMPostBaseCell.m */; };
+		4829199E18CB9FF8003117A8 /* NSDateFormatter+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4829199D18CB9FF8003117A8 /* NSDateFormatter+BSM.m */; };
 		48BC70F418CB5B3F00706E01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BC70F318CB5B3F00706E01 /* Foundation.framework */; };
 		48BC70F618CB5B3F00706E01 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BC70F518CB5B3F00706E01 /* CoreGraphics.framework */; };
 		48BC70F818CB5B3F00706E01 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BC70F718CB5B3F00706E01 /* UIKit.framework */; };
@@ -38,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4829199918CB9F52003117A8 /* BSMPostBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMPostBaseCell.h; path = Source/BSMPostBaseCell.h; sourceTree = "<group>"; };
+		4829199A18CB9F52003117A8 /* BSMPostBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMPostBaseCell.m; path = Source/BSMPostBaseCell.m; sourceTree = "<group>"; };
+		4829199C18CB9FF8003117A8 /* NSDateFormatter+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDateFormatter+BSM.h"; path = "Source/NSDateFormatter+BSM.h"; sourceTree = "<group>"; };
+		4829199D18CB9FF8003117A8 /* NSDateFormatter+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDateFormatter+BSM.m"; path = "Source/NSDateFormatter+BSM.m"; sourceTree = "<group>"; };
 		48BC70F018CB5B3F00706E01 /* TumblrTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48BC70F318CB5B3F00706E01 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		48BC70F518CB5B3F00706E01 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -92,6 +98,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4829199818CB9F3D003117A8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4829199918CB9F52003117A8 /* BSMPostBaseCell.h */,
+				4829199A18CB9F52003117A8 /* BSMPostBaseCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		48BC70E718CB5B3F00706E01 = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +142,7 @@
 		48BC70F918CB5B3F00706E01 /* TumblrTest */ = {
 			isa = PBXGroup;
 			children = (
+				4829199818CB9F3D003117A8 /* Cells */,
 				48C4A6B218CB899000AF6950 /* Categories */,
 				48C4A69C18CB622400AF6950 /* Model */,
 				48BC710218CB5B3F00706E01 /* BSMAppDelegate.h */,
@@ -185,6 +201,8 @@
 			children = (
 				48C4A6AE18CB895F00AF6950 /* YapDatabaseView+BSM.h */,
 				48C4A6AF18CB895F00AF6950 /* YapDatabaseView+BSM.m */,
+				4829199C18CB9FF8003117A8 /* NSDateFormatter+BSM.h */,
+				4829199D18CB9FF8003117A8 /* NSDateFormatter+BSM.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -322,8 +340,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4829199E18CB9FF8003117A8 /* NSDateFormatter+BSM.m in Sources */,
 				48C4A69F18CB623F00AF6950 /* BSMPost.m in Sources */,
 				48BC710018CB5B3F00706E01 /* main.m in Sources */,
+				4829199B18CB9F52003117A8 /* BSMPostBaseCell.m in Sources */,
 				48BC710418CB5B3F00706E01 /* BSMAppDelegate.m in Sources */,
 				48C4A6AA18CB790800AF6950 /* BSMTumblrDatabase.m in Sources */,
 				48BC710A18CB5B3F00706E01 /* BSMViewController.m in Sources */,
