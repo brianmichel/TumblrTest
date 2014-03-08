@@ -17,17 +17,27 @@
 NSString * const CollectionViewCellID = @"cell";
 NSString * const DashboardViewID = @"dashboard";
 
+const NSInteger BSMViewControllerNumberOfItemsPerPage = 20;
+const CGFloat BSMViewControllerScrollLoadThreshhold = 0.8;
+
 @interface BSMViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) dispatch_queue_t processingQueue;
 @property (strong) YapDatabaseConnection *connection;
 @property (strong) YapDatabaseViewMappings *mappings;
 
 @property (strong) UICollectionView *collectionView;
+@property (strong) UIRefreshControl *refreshControl;
+
+@property (assign) BOOL loading;
 @end
 
 @implementation BSMViewController
 
 - (void)commonInit {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl sizeToFit];
+    [self.refreshControl addTarget:self action:@selector(didBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
@@ -36,10 +46,11 @@ NSString * const DashboardViewID = @"dashboard";
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    self.collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    [self.collectionView addSubview:self.refreshControl];
     
     self.processingQueue = dispatch_queue_create("com.bsm.tumblr.processing", DISPATCH_QUEUE_CONCURRENT);
     [[BSMTumblrDatabase sharedDatabase] registerView:[YapDatabaseView bsm_dashboardPostsView] withName:DashboardViewID];
-    NSLog(@"ALL EXTENSIONS: %@", [[BSMTumblrDatabase sharedDatabase] allViews]);
     
     self.connection = [[BSMTumblrDatabase sharedDatabase] newLonglivedDatabaseConnection];
     self.mappings = [[YapDatabaseViewMappings alloc] initWithGroups:@[@"posts"] view:DashboardViewID];
@@ -62,14 +73,17 @@ NSString * const DashboardViewID = @"dashboard";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.collectionView];
-    //[self fetchNewPosts];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.refreshControl beginRefreshing];
+    [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, -self.refreshControl.frame.size.height) animated:YES];
 }
 
 - (void)updateViewConstraints {
     [super updateViewConstraints];
-    
     [self.collectionView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
 }
 
@@ -101,10 +115,39 @@ NSString * const DashboardViewID = @"dashboard";
     return cell;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetY = scrollView.contentOffset.y;
+    CGFloat contentSizeHeight = scrollView.contentSize.height;
+    CGFloat scrollViewHeight = scrollView.frame.size.height;
+    
+    CGFloat percentageScrolled = (offsetY + scrollViewHeight) / contentSizeHeight;
+    if (percentageScrolled > BSMViewControllerScrollLoadThreshhold && !self.loading) {
+        [self fetchNextPageOfPosts];
+    }
+}
+
 #pragma mark - Networking
-- (void)fetchNewPosts {
-    //todo need to store offsets
-    [[TMAPIClient sharedInstance] dashboard:nil callback:^(id dashboard, NSError *error) {
+- (void)fetchNewPostsSinceMostRecentPost {
+    NSNumber *mostRecentID = [self mostRecentID];
+    NSDictionary *paramaters = nil;
+    if (mostRecentID) {
+        paramaters = @{@"since_id" : mostRecentID};
+    }
+    [self fetchPostsWithParameters:paramaters];
+}
+
+- (void)fetchNextPageOfPosts {
+    NSNumber *lastPostPageNumber = [self nextPageIndex];
+    [self fetchPostsWithParameters:@{@"offset" : lastPostPageNumber}];
+}
+
+- (void)fetchPostsWithParameters:(NSDictionary *)parameters {
+    if (self.loading) {return;}
+    
+    self.loading = YES;
+    
+    __weak typeof(self) weak = self;
+    [[TMAPIClient sharedInstance] dashboard:parameters callback:^(id dashboard, NSError *error) {
         if (dashboard) {
             dispatch_async(self.processingQueue, ^{
                 NSArray *posts = dashboard[@"posts"];
@@ -112,11 +155,11 @@ NSString * const DashboardViewID = @"dashboard";
                     NSError *error = nil;
                     BSMPost *postModel = [MTLJSONAdapter modelOfClass:[BSMPost class] fromJSONDictionary:post error:&error];
                     [[BSMTumblrDatabase sharedDatabase] savePost:postModel withCallback:nil];
-                    NSLog(@"BASE POST: %@", postModel);
                 }
             });
         }
-        
+        weak.loading = NO;
+        [weak.refreshControl endRefreshing];
     }];
 }
 
@@ -132,8 +175,53 @@ NSString * const DashboardViewID = @"dashboard";
                                             forNotifications:notifications
                                                 withMappings:self.mappings];
     
-    NSLog(@"SECTION CHANGES: %@", sectionChanges);
-    NSLog(@"ROW CHANGES: %@", rowChanges);
+    if ([sectionChanges count] == 0 & [rowChanges count] == 0) {
+        return;
+    }
+
+    [self.collectionView performBatchUpdates:^{
+        for (YapDatabaseViewRowChange *rowChange in rowChanges) {
+            switch (rowChange.type) {
+                case YapDatabaseViewChangeDelete: {
+                    [self.collectionView deleteItemsAtIndexPaths:@[rowChange.indexPath]];
+                    break;
+                }
+                case YapDatabaseViewChangeInsert: {
+                    [self.collectionView insertItemsAtIndexPaths:@[rowChange.newIndexPath]];
+                    break;
+                }
+                case YapDatabaseViewChangeMove:{
+                    [self.collectionView moveItemAtIndexPath:rowChange.indexPath toIndexPath:rowChange.newIndexPath];
+                    break;
+                }
+                case YapDatabaseViewChangeUpdate:{
+                    [self.collectionView reloadItemsAtIndexPaths:@[rowChange.indexPath]];
+                    break;
+                }
+            }
+    }
+    } completion:nil];
+}
+
+#pragma mark - Actions
+- (void)didBeginRefreshing:(UIRefreshControl *)control {
+    [self fetchNewPostsSinceMostRecentPost];
+}
+
+#pragma mark - Helpers
+- (NSNumber *)mostRecentID {
+    NSString *group = [self.mappings groupForSection:0];
+    __block BSMPost *post = nil;
+    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        post = [[transaction ext:DashboardViewID] objectAtIndex:0 inGroup:group];
+    }];
+    
+    return post.postID;
+}
+
+- (NSNumber *)nextPageIndex {
+    NSInteger totalNumberOfItems = [self.mappings numberOfItemsInAllGroups];
+    return @(totalNumberOfItems + 1);
 }
 
 
