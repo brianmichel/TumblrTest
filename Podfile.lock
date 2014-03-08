@@ -1,0 +1,47 @@
+PODS:
+  - CocoaLumberjack (1.6.5.1):
+    - CocoaLumberjack/Core
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/Core (1.6.5.1)
+  - CocoaLumberjack/Extensions (1.6.5.1):
+    - CocoaLumberjack/Core
+  - JXHTTP (1.0.0)
+  - Mantle (1.4):
+    - Mantle/extobjc
+  - Mantle/extobjc (1.4)
+  - SDWebImage (3.5.2):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.5.2)
+  - TMTumblrSDK (1.0.6):
+    - TMTumblrSDK/Activity
+    - TMTumblrSDK/APIClient
+    - TMTumblrSDK/AppClient
+    - TMTumblrSDK/Core
+  - TMTumblrSDK/Activity (1.0.6)
+  - TMTumblrSDK/APIClient (1.0.6):
+    - JXHTTP (= 1.0.0)
+    - TMTumblrSDK/APIClient/Authentication
+  - TMTumblrSDK/APIClient/Authentication (1.0.6):
+    - JXHTTP (= 1.0.0)
+    - TMTumblrSDK/Core
+  - TMTumblrSDK/AppClient (1.0.6):
+    - TMTumblrSDK/Core
+  - TMTumblrSDK/Core (1.0.6)
+  - YapDatabase (2.4):
+    - CocoaLumberjack (~> 1.6.3)
+
+DEPENDENCIES:
+  - Mantle
+  - SDWebImage
+  - TMTumblrSDK
+  - YapDatabase
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: 17803afbade3126a377d32b8d23367264b44ced6
+  JXHTTP: 04f027e55c252d206cf3fcc2a2bde3914a35d842
+  Mantle: de026e86c183c5adfd453c1d8419babb787fea97
+  SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
+  TMTumblrSDK: cc16af8cfc8124926ab202455c1a6c87ff8725b3
+  YapDatabase: 3e1159ee9540859342bf2869a86dd9e434548c45
+
+COCOAPODS: 0.29.0
