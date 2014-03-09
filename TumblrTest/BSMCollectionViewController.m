@@ -8,66 +8,29 @@
 
 #import <Mantle/Mantle.h>
 #import <YapDatabase/YapDatabase.h>
-#import "BSMViewController.h"
+#import "BSMCollectionViewController.h"
 #import "BSMPost.h"
 #import "BSMTumblrDatabase.h"
 #import "YapDatabaseView+BSM.h"
 #import "BSMPostBaseCell.h"
 
-NSString * const CollectionViewCellID = @"cell";
-NSString * const DashboardViewID = @"dashboard";
-
-const NSInteger BSMViewControllerNumberOfItemsPerPage = 20;
-const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
-
-@interface BSMViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
-@property (strong) dispatch_queue_t processingQueue;
-@property (strong) YapDatabaseConnection *connection;
-@property (strong) YapDatabaseViewMappings *mappings;
-
+@interface BSMCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) UICollectionView *collectionView;
-@property (strong) UIRefreshControl *refreshControl;
-
-@property (assign) BOOL loading;
 @end
 
-@implementation BSMViewController
+@implementation BSMCollectionViewController
 
-- (void)commonInit {
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl sizeToFit];
-    [self.refreshControl addTarget:self action:@selector(didBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-    
+- (void)setupCollectionView {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:CollectionViewCellID];
+    [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
     [self.collectionView addSubview:self.refreshControl];
-    
-    self.processingQueue = dispatch_queue_create("com.bsm.tumblr.processing", DISPATCH_QUEUE_CONCURRENT);
-    [[BSMTumblrDatabase sharedDatabase] registerView:[YapDatabaseView bsm_dashboardPostsView] withName:DashboardViewID];
-    
-    self.connection = [[BSMTumblrDatabase sharedDatabase] newLonglivedDatabaseConnection];
-    self.mappings = [[YapDatabaseViewMappings alloc] initWithGroups:@[@"posts"] view:DashboardViewID];
-    
-    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        [self.mappings updateWithTransaction:transaction];
-    }];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(yapDatabaseModified:) name:YapDatabaseModifiedNotification object:self.connection.database];
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
 }
 
 - (void)viewDidLoad
@@ -103,7 +66,7 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BSMPostBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellID forIndexPath:indexPath];
+    BSMPostBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ViewControllerCellID forIndexPath:indexPath];
     
     __block BSMPost *post = nil;
     NSString *group = [self.mappings groupForSection:indexPath.section];
@@ -127,43 +90,6 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
         [self fetchNextPageOfPosts];
     }
     lastPercentageScrolled = percentageScrolled;
-}
-
-#pragma mark - Networking
-- (void)fetchNewPostsSinceMostRecentPost {
-    NSNumber *mostRecentID = [self mostRecentID];
-    NSDictionary *paramaters = nil;
-    if (mostRecentID) {
-        paramaters = @{@"since_id" : mostRecentID};
-    }
-    [self fetchPostsWithParameters:paramaters];
-}
-
-- (void)fetchNextPageOfPosts {
-    NSNumber *lastPostPageNumber = [self nextPageIndex];
-    [self fetchPostsWithParameters:@{@"offset" : lastPostPageNumber}];
-}
-
-- (void)fetchPostsWithParameters:(NSDictionary *)parameters {
-    if (self.loading) {return;}
-    
-    self.loading = YES;
-    
-    __weak typeof(self) weak = self;
-    [[TMAPIClient sharedInstance] dashboard:parameters callback:^(id dashboard, NSError *error) {
-        if (dashboard) {
-            dispatch_async(self.processingQueue, ^{
-                NSArray *posts = dashboard[@"posts"];
-                for (NSDictionary *post in posts) {
-                    NSError *error = nil;
-                    BSMPost *postModel = [MTLJSONAdapter modelOfClass:[BSMPost class] fromJSONDictionary:post error:&error];
-                    [[BSMTumblrDatabase sharedDatabase] savePost:postModel withCallback:nil];
-                }
-            });
-        }
-        weak.loading = NO;
-        [weak.refreshControl endRefreshing];
-    }];
 }
 
 #pragma mark - Notifications
@@ -204,31 +130,5 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
             }
     }
     } completion:nil];
-}
-
-#pragma mark - Actions
-- (void)didBeginRefreshing:(UIRefreshControl *)control {
-    [self fetchNewPostsSinceMostRecentPost];
-}
-
-#pragma mark - Helpers
-- (NSNumber *)mostRecentID {
-    NSString *group = [self.mappings groupForSection:0];
-    __block BSMPost *post = nil;
-    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        post = [[transaction ext:DashboardViewID] objectAtIndex:0 inGroup:group];
-    }];
-    
-    return post.postID;
-}
-
-- (NSNumber *)nextPageIndex {
-    NSInteger totalNumberOfItems = [self.mappings numberOfItemsInAllGroups];
-    return @(totalNumberOfItems + 1);
-}
-
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

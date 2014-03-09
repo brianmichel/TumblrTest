@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BSMViewController.h"
 
-@interface BSMViewController : UIViewController
+@interface BSMCollectionViewController : BSMViewController
 
 @end
