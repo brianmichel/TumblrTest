@@ -7,6 +7,7 @@
 //
 
 #import "BSMPost.h"
+#import "BSMPhoto.h"
 
 static NSDictionary *postTypeToStringMapping = nil;
 
@@ -40,6 +41,17 @@ static NSDictionary *postTypeToStringMapping = nil;
             return [BSMLinkPost class];
         case BSMPostTypeQuote:
             return [BSMQuotePost class];
+        case BSMPostTypePhoto:
+            return [BSMPhotoPost class];
+        case BSMPostTypeAudio:
+            return [BSMAudioPost class];
+        case BSMPostTypeVideo:
+            return [BSMVideoPost class];
+        case BSMPostTypeAnswer:
+            //unimplemented
+        case BSMPostTypeChat:
+            //unimplemented
+        case BSMPostTypeUnknown:
         default:
             return [self class];
     }
@@ -93,6 +105,22 @@ static NSDictionary *postTypeToStringMapping = nil;
 
 @end
 
+@implementation BSMPhotoPost
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return [[super JSONKeyPathsByPropertyKey] mtl_dictionaryByAddingEntriesFromDictionary:
+            @{
+              @"photos" : @"photos",
+              @"caption" : @"caption"
+              }];
+}
+
++ (NSValueTransformer *)photosJSONTransformer {
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[BSMPhoto class]];
+}
+
+@end
+
 @implementation BSMQuotePost
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
@@ -118,6 +146,41 @@ static NSDictionary *postTypeToStringMapping = nil;
 
 + (NSValueTransformer *)urlJSONTransformer {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
+@end
+
+@implementation BSMAudioPost
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return [[super JSONKeyPathsByPropertyKey] mtl_dictionaryByAddingEntriesFromDictionary:
+            @{
+              @"caption" : @"caption",
+              @"player" : @"player",
+              @"plays" : @"plays",
+              @"albumArtURL" : @"album_art",
+              @"artist" : @"artist",
+              @"album" : @"album",
+              @"trackName" : @"track_name",
+              @"trackNumber" : @"track_number",
+              @"year" : @"year"
+              }];
+}
+
++ (NSValueTransformer *)album_artJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
+@end
+
+@implementation BSMVideoPost
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return [[super JSONKeyPathsByPropertyKey] mtl_dictionaryByAddingEntriesFromDictionary:
+            @{
+              @"caption" : @"caption",
+              @"player" : @"player"
+              }];
 }
 
 @end

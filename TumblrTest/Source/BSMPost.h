@@ -65,5 +65,22 @@ typedef NS_ENUM(NSInteger, BSMPostType) {
 @property (copy, readonly) NSArray *dialog;
 @end
 
+@interface BSMAudioPost : BSMPost
+@property (copy, readonly) NSString *caption;
+@property (copy, readonly) NSString *player;
+@property (copy, readonly) NSNumber *plays;
+@property (copy, readonly) NSURL *albumArtURL;
+@property (copy, readonly) NSString *artist;
+@property (copy, readonly) NSString *album;
+@property (copy, readonly) NSString *trackName;
+@property (copy, readonly) NSNumber *trackNumber;
+@property (copy, readonly) NSNumber *year;
+@end
+
+@interface BSMVideoPost : BSMPost
+@property (copy, readonly) NSString *caption;
+@property (copy, readonly) NSArray *player;
+@end
+
 //Need Audio
 //Need Video

@@ -6,10 +6,13 @@
 //  Copyright (c) 2014 Brian Michel. All rights reserved.
 //
 
+#import <UIColor-Crayola/UIColor+Crayola.h>
 #import "BSMPostBaseCell.h"
 #import "BSMPost.h"
 #import "BSMSimpleLabelCollectionViewCell.h"
 #import "NSDateFormatter+BSM.h"
+
+#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue" size:14.0]
 
 @interface BSMPostBaseCell () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) UILabel *dateLabel;
@@ -38,6 +41,7 @@
         
         self.dateLabel = [UILabel newAutoLayoutView];
         self.dateLabel.textAlignment = NSTextAlignmentCenter;
+        self.dateLabel.font = POST_LABEL_FONT;
         
         [self.contentView addSubview:self.dateLabel];
         [self.contentView addSubview:self.tagsCollectionView];
@@ -54,7 +58,7 @@
     [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:5.0];
     [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:5.0];
     [self.tagsCollectionView autoPinEdge:ALEdgeTrailing toEdge:ALEdgeLeading ofView:self.dateLabel withOffset:-5.0];
-    [self.tagsCollectionView autoSetDimension:ALDimensionHeight toSize:20.0 relation:NSLayoutRelationGreaterThanOrEqual];
+    [self.tagsCollectionView autoConstrainAttribute:ALDimensionHeight toAttribute:ALDimensionHeight ofView:self.dateLabel];
 }
 
 - (void)prepareForReuse {
@@ -72,7 +76,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     UILabel *label = [[UILabel alloc] init];
-    label.font = [UIFont systemFontOfSize:10.0];
+    label.font = POST_LABEL_FONT;
     label.text = [NSString stringWithFormat:@"#%@", self.post.tags[indexPath.row]];
     CGSize size = [label systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size;
@@ -81,9 +85,9 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BSMSimpleLabelCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    cell.textLabel.font = [UIFont systemFontOfSize:10.0];
+    cell.textLabel.font = POST_LABEL_FONT;
     cell.textLabel.textColor = [UIColor darkGrayColor];
-    cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
+    cell.textLabel.highlightedTextColor = [UIColor whiteColor];
     
     cell.textLabel.text = [NSString stringWithFormat:@"#%@", self.post.tags[indexPath.row]];
     return cell;
@@ -99,12 +103,35 @@
         _post = post;
         //stuff
         self.dateLabel.text = [[NSDateFormatter bsm_shortRelativeDateFormatter] stringFromDate:_post.date];
+        
+        self.backgroundColor = [self colorForPostType:self.post.type];
         [self setNeedsUpdateConstraints];
     }
 }
 
 - (BSMPost *)post {
     return _post;
+}
+
+- (UIColor *)colorForPostType:(NSNumber *)postType {
+    BSMPostType type = [postType integerValue];
+    switch (type) {
+        case BSMPostTypeText:
+            return [UIColor crayolaAmethystColor];
+        case BSMPostTypePhoto:
+            return [UIColor crayolaOceanGreenPearlColor];
+        case BSMPostTypeAudio:
+            return [UIColor crayolaAtomicTangerineColor];
+        case BSMPostTypeAnswer:
+            return [UIColor crayolaShampooColor];
+        case BSMPostTypeVideo:
+            return [UIColor crayolaSizzlingSunriseColor];
+        case BSMPostTypeQuote:
+            return [UIColor crayolaSkyBlueColor];
+        default:
+            return [UIColor lightGrayColor];
+            break;
+    }
 }
 
 @end

@@ -111,7 +111,6 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
         post = [[transaction ext:DashboardViewID] objectAtIndex:indexPath.row inGroup:group];
     }];
     cell.post = post;
-    cell.backgroundColor = [UIColor redColor];
     
     return cell;
 }
