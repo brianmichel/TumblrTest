@@ -11,16 +11,22 @@
 
 @implementation UIImageView (BSM)
 - (void)loadImageAtURLAndFlash:(NSURL *)url {
-    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url options:0 progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-        if (image) {
-            [UIView animateWithDuration:0.1 animations:^{
-                self.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                self.image = image;
+    
+    __weak typeof(self) weak = self;
+    [[SDWebImageManager sharedManager] downloadWithURL:url options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+        if (SDImageCacheTypeNone) {
+            if (image) {
                 [UIView animateWithDuration:0.1 animations:^{
-                    self.alpha = 1.0;
+                    weak.alpha = 0.0;
+                } completion:^(BOOL finished) {
+                    weak.image = image;
+                    [UIView animateWithDuration:0.1 animations:^{
+                        weak.alpha = 1.0;
+                    }];
                 }];
-            }];
+            }
+        } else {
+            weak.image = image;
         }
     }];
 }

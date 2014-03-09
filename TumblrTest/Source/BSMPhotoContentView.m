@@ -69,10 +69,6 @@
     return (BSMPhotoPost *)self.post;
 }
 
-- (void)prepareForReuse {
-    [self.imageView cancelCurrentImageLoad];
-}
-
 - (CGSize)sizeForImageWithSize:(CGSize)imageSize viewSize:(CGSize)viewSize {
     CGFloat returnWidth = 0.0;
     CGFloat returnHeight = 0.0;

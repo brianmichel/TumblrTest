@@ -100,10 +100,6 @@ const CGFloat PostBaseCellMargin = 5.0;
 
 - (void)prepareForReuse {
     [self.tagsCollectionView reloadData];
-    for (BSMBaseContentView *subview in [self.containerView subviews]) {
-        [subview prepareForReuse];
-        [subview removeFromSuperview];
-    }
     self.didUpdateConstraints = NO;
 }
 
@@ -141,10 +137,15 @@ const CGFloat PostBaseCellMargin = 5.0;
 
 #pragma mark - Properties
 - (void)setPost:(BSMPost *)post {
-    if (_post != post) {
+    if (![_post isEqual:post]) {
         _post = post;
         self.dateLabel.text = [[NSDateFormatter bsm_shortRelativeDateFormatter] stringFromDate:_post.date];
         self.blogNameLabel.text = _post.blogName;
+        
+        for (BSMBaseContentView *subview in [self.containerView subviews]) {
+            [subview prepareForReuse];
+            [subview removeFromSuperview];
+        }
         
         UIView *view = [BSMPostContentViewFactory contentViewForPost:_post constrainedToWidth:0.0];
         view.translatesAutoresizingMaskIntoConstraints = NO;
