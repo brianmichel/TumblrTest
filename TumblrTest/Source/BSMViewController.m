@@ -28,6 +28,7 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl sizeToFit];
     [self.refreshControl addTarget:self action:@selector(didBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl.tintColor = [UIColor whiteColor];
     
     self.processingQueue = dispatch_queue_create("com.bsm.tumblr.processing", DISPATCH_QUEUE_CONCURRENT);
     [[BSMTumblrDatabase sharedDatabase] registerView:[YapDatabaseView bsm_dashboardPostsView] withName:DashboardViewID];

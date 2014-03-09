@@ -15,7 +15,7 @@
 #import "BSMBaseContentView.h"
 
 #define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0]
-#define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Light" size:18.0]
+#define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:18.0]
 
 const CGFloat PostBaseCellMargin = 5.0;
 
@@ -63,6 +63,8 @@ const CGFloat PostBaseCellMargin = 5.0;
         [self.contentView addSubview:self.dateLabel];
         [self.contentView addSubview:self.tagsCollectionView];
         [self.contentView addSubview:self.containerView];
+        
+        self.layer.cornerRadius = 4.0;
     }
     return self;
 }
