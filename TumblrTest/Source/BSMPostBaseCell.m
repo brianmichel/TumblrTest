@@ -12,6 +12,7 @@
 #import "BSMSimpleLabelCollectionViewCell.h"
 #import "NSDateFormatter+BSM.h"
 #import "BSMPostContentViewFactory.h"
+#import "BSMBaseContentView.h"
 
 #define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0]
 #define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Light" size:18.0]
@@ -99,7 +100,8 @@ const CGFloat PostBaseCellMargin = 5.0;
 
 - (void)prepareForReuse {
     [self.tagsCollectionView reloadData];
-    for (UIView *subview in [self.containerView subviews]) {
+    for (BSMBaseContentView *subview in [self.containerView subviews]) {
+        [subview prepareForReuse];
         [subview removeFromSuperview];
     }
     self.didUpdateConstraints = NO;

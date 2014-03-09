@@ -60,4 +60,6 @@
     self.frame = CGRectMake(0, 0, self.frame.size.width, 80.0);
 }
 
+- (void)prepareForReuse {}
+
 @end

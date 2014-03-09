@@ -18,4 +18,5 @@
 
 - (instancetype)initWithConstraintWidth:(CGFloat)width;
 - (void)updateFrameAfterSettingPost;
+- (void)prepareForReuse;
 @end
