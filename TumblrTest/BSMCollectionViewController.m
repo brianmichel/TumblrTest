@@ -27,12 +27,13 @@
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
-        self.collectionView.backgroundColor = [UIColor darkGrayColor];
+        self.collectionView.backgroundColor = [UIColor bsm_TumblrBlue];
         self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
-        self.collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
+        self.collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
         [self.collectionView addSubview:self.refreshControl];
     }
     return self;

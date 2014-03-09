@@ -22,20 +22,21 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.backgroundColor = [UIColor bsm_tumblrGreen];
         self.linkButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.linkButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.linkButton setTitleColor:[UIColor crayolaBlueberryColor] forState:UIControlStateNormal];
-        self.linkButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        [self.linkButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.linkButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.linkButton.titleLabel.numberOfLines = 0;
+        self.linkButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.linkButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0];
-        
-        self.linkButton.backgroundColor = [UIColor crayolaSpringGreenColor];
         
         self.linkDescriptionLabel = [UILabel newAutoLayoutView];
         self.linkDescriptionLabel.numberOfLines = 0;
+        self.linkDescriptionLabel.textColor = [UIColor whiteColor];
         self.linkDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
         
         [self addSubview:self.linkButton];
-        [self addSubview:self.linkDescriptionLabel];
     }
     return self;
 }
@@ -43,21 +44,12 @@
 - (void)updateConstraints {
     [super updateConstraints];
     [self.linkButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.linkButton autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
-    [self.linkButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.0];
-    [self.linkButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
-    [self.linkButton autoSetDimension:ALDimensionHeight toSize:50.0];
-    
-    [self.linkDescriptionLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.linkDescriptionLabel autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
-    [self.linkDescriptionLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.0];
-    [self.linkDescriptionLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
-    [self.linkDescriptionLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.linkButton withOffset:0.0];
+    [self.linkButton autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.linkDescriptionLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.frame);
+    self.linkButton.titleLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.frame);
 }
 
 - (void)updateFrameAfterSettingPost {
@@ -67,8 +59,8 @@
     
     //make sure we have something for the layout solver to use
     self.bounds = CGRectMake(0, 0, self.constraintWidth, 100);
-        
-    [self.linkButton setTitle:linkPost.title forState:UIControlStateNormal];
+            
+    [self.linkButton setAttributedTitle:[self attributedButtonTitleForLinkPost:linkPost] forState:UIControlStateNormal];
     self.linkDescriptionLabel.text = linkPost.postDescription;
     
     //force a layout pass when the solver is ready
@@ -83,6 +75,23 @@
 
 - (BSMLinkPost *)linkPost {
     return (BSMLinkPost *)self.post;
+}
+
+- (NSAttributedString *)attributedButtonTitleForLinkPost:(BSMLinkPost *)post {
+    NSString *title = post.title;
+    NSString *host = [post.URL host];
+    
+    NSString *combinedString = [NSString stringWithFormat:@"%@ \n\n %@", title, host];
+    
+    NSRange hostRange = [combinedString rangeOfString:host];
+    NSRange fullRange = NSMakeRange(0, [combinedString length]);
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:combinedString];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0] range:fullRange];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue" size:20.0] range:hostRange];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:fullRange];
+    
+    return [[NSAttributedString alloc] initWithAttributedString:attributedString];
 }
 
 @end

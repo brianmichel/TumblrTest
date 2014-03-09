@@ -25,6 +25,7 @@
         // Initialization code
         self.imageView = [[UIImageView alloc] init];
         self.imageView.clipsToBounds = YES;
+        
         [self addSubview:self.imageView];
     }
     return self;

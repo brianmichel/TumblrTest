@@ -14,7 +14,7 @@
 #import "BSMPostContentViewFactory.h"
 #import "BSMBaseContentView.h"
 
-#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0]
+#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue" size:15.0]
 #define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:18.0]
 
 const CGFloat PostBaseCellMargin = 5.0;
@@ -37,6 +37,8 @@ const CGFloat PostBaseCellMargin = 5.0;
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.backgroundColor = [UIColor whiteColor];
+        
         self.containerView = [UIView newAutoLayoutView];
         self.containerView.backgroundColor = [UIColor lightGrayColor];
         
@@ -127,7 +129,7 @@ const CGFloat PostBaseCellMargin = 5.0;
     
     cell.textLabel.font = POST_LABEL_FONT;
     cell.textLabel.textColor = [UIColor darkGrayColor];
-    cell.textLabel.highlightedTextColor = [UIColor whiteColor];
+    cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
     
     cell.textLabel.text = [NSString stringWithFormat:@"#%@", self.post.tags[indexPath.row]];
     return cell;
@@ -155,7 +157,7 @@ const CGFloat PostBaseCellMargin = 5.0;
         
         [view autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
         
-        self.backgroundColor = [self colorForPostType:self.post.type];
+        self.containerView.backgroundColor = [self colorForPostType:self.post.type];
         [self setNeedsUpdateConstraints];
     }
 }
@@ -168,20 +170,14 @@ const CGFloat PostBaseCellMargin = 5.0;
     BSMPostType type = [postType integerValue];
     switch (type) {
         case BSMPostTypeText:
-            return [UIColor crayolaAquamarineColor];
         case BSMPostTypePhoto:
-            return [UIColor crayolaOceanGreenPearlColor];
+            return nil;
         case BSMPostTypeAudio:
-            return [UIColor crayolaAtomicTangerineColor];
         case BSMPostTypeAnswer:
-            return [UIColor crayolaShampooColor];
         case BSMPostTypeVideo:
-            return [UIColor crayolaSizzlingSunriseColor];
         case BSMPostTypeQuote:
-            return [UIColor crayolaSkyBlueColor];
         default:
             return [UIColor lightGrayColor];
-            break;
     }
 }
 

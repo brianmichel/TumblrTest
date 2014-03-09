@@ -164,7 +164,7 @@ static NSDictionary *stringToPostTypeMapping = nil;
               }];
 }
 
-+ (NSValueTransformer *)urlJSONTransformer {
++ (NSValueTransformer *)URLJSONTransformer {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 

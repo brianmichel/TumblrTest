@@ -15,4 +15,5 @@
     #import <Foundation/Foundation.h>
     #import <TMTumblrSDK/TMAPIClient.h>
     #import <UIView+AutoLayout/UIView+AutoLayout.h>
+    #import "BSMTheme.h"
 #endif
