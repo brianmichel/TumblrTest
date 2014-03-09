@@ -7,7 +7,6 @@
 //
 
 #import <UIColor-Crayola/UIColor+Crayola.h>
-#import <DTCoreText/DTCoreText.h>
 #import "BSMLinkContentView.h"
 #import "BSMPost.h"
 
