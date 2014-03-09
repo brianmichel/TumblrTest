@@ -28,7 +28,7 @@
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
-        self.collectionView.backgroundColor = [UIColor clearColor];
+        self.collectionView.backgroundColor = [UIColor darkGrayColor];
         self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
@@ -70,8 +70,9 @@
     
     BSMPost *post = [self postForIndexPath:indexPath];
 
-    UIView *view = [BSMPostContentViewFactory contentViewForPost:post constrainedToWidth:0.0];
-    return CGSizeMake(collectionView.frame.size.width - (insets.left + insets.right), view.frame.size.height + 50);
+    CGFloat width = collectionView.frame.size.width - (insets.left + insets.right);
+    UIView *view = [BSMPostContentViewFactory contentViewForPost:post constrainedToWidth:width];
+    return CGSizeMake(width, view.frame.size.height + 50);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {

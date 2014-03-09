@@ -9,6 +9,7 @@
 #import "BSMPostContentViewFactory.h"
 #import "BSMBaseContentView.h"
 #import "BSMPhotoContentView.h"
+#import "BSMLinkContentView.h"
 #import "BSMPost.h"
 
 @implementation BSMPostContentViewFactory
@@ -16,10 +17,13 @@
     BSMBaseContentView *contentView = nil;
     switch ([post.type integerValue]) {
         case BSMPostTypePhoto:
-            contentView = [[BSMPhotoContentView alloc] init];
+            contentView = [[BSMPhotoContentView alloc] initWithConstraintWidth:width];
+            break;
+        case BSMPostTypeLink:
+            contentView = [[BSMLinkContentView alloc] initWithConstraintWidth:width];
             break;
         default:
-            contentView = [[BSMBaseContentView alloc] init];
+            contentView = [[BSMBaseContentView alloc] initWithConstraintWidth:width];
             break;
     }
     contentView.post = post;

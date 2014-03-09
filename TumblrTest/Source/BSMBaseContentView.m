@@ -10,12 +10,22 @@
 #import "BSMPost.h"
 
 @interface BSMBaseContentView ()
-@property (strong) UILabel *postTypeLabel;
+@property (strong, readwrite) UILabel *postTypeLabel;
+@property (assign, readwrite) CGFloat constraintWidth;
 @end
 
 @implementation BSMBaseContentView
 
 @synthesize post = _post;
+
+- (instancetype)initWithConstraintWidth:(CGFloat)width {
+    self = [self initWithFrame:CGRectMake(0, 0, width, 0)];
+    if (self) {
+        self.constraintWidth = width;
+    }
+    
+    return self;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {

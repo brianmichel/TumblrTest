@@ -11,7 +11,11 @@
 @class BSMPost;
 
 @interface BSMBaseContentView : UIView
+
+@property (strong, readonly) UILabel *postTypeLabel;
+@property (assign, readonly) CGFloat constraintWidth;
 @property (strong) BSMPost *post;
 
+- (instancetype)initWithConstraintWidth:(CGFloat)width;
 - (void)updateFrameAfterSettingPost;
 @end

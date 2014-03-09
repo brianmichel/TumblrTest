@@ -105,6 +105,10 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
     return post;
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 #pragma mark - Notification
 - (void)yapDatabaseModified:(NSNotification *)notification {
     //override in subclass

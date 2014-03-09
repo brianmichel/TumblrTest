@@ -23,6 +23,8 @@ const CGFloat PostBaseCellMargin = 5.0;
 @property (strong) UILabel *dateLabel;
 @property (strong) UILabel *blogNameLabel;
 @property (strong) UICollectionView *tagsCollectionView;
+
+@property (assign) BOOL didUpdateConstraints;
 @end
 
 @implementation BSMPostBaseCell
@@ -67,13 +69,20 @@ const CGFloat PostBaseCellMargin = 5.0;
 - (void)updateConstraints {
     [super updateConstraints];
     
+    if (self.didUpdateConstraints) {
+        return;
+    }
+    
+    [self.blogNameLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
     [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
     [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:PostBaseCellMargin];
     
+    [self.dateLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:PostBaseCellMargin];
     [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
     
+    [self.tagsCollectionView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
     [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:PostBaseCellMargin];
     [self.tagsCollectionView autoPinEdge:ALEdgeTrailing toEdge:ALEdgeLeading ofView:self.dateLabel withOffset:-PostBaseCellMargin];
@@ -84,6 +93,8 @@ const CGFloat PostBaseCellMargin = 5.0;
     [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
     [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
     [self.containerView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.dateLabel];
+    
+    self.didUpdateConstraints = YES;
 }
 
 - (void)prepareForReuse {
@@ -91,6 +102,7 @@ const CGFloat PostBaseCellMargin = 5.0;
     for (UIView *subview in [self.containerView subviews]) {
         [subview removeFromSuperview];
     }
+    self.didUpdateConstraints = NO;
 }
 
 #pragma mark - UICollectionView
