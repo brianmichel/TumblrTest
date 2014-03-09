@@ -67,17 +67,9 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     UIEdgeInsets insets = collectionView.contentInset;
-    NSInteger randomHeight = arc4random_uniform(500);
-    randomHeight = MAX(80, randomHeight);
     
-    
-    __block BSMPost *post = nil;
-    NSString *group = [self.mappings groupForSection:indexPath.section];
-    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        post = [[transaction ext:DashboardViewID] objectAtIndex:indexPath.row inGroup:group];
-    }];
+    BSMPost *post = [self postForIndexPath:indexPath];
 
-    
     UIView *view = [BSMPostContentViewFactory contentViewForPost:post constrainedToWidth:0.0];
     return CGSizeMake(collectionView.frame.size.width - (insets.left + insets.right), view.frame.size.height + 50);
 }
@@ -85,11 +77,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BSMPostBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ViewControllerCellID forIndexPath:indexPath];
     
-    __block BSMPost *post = nil;
-    NSString *group = [self.mappings groupForSection:indexPath.section];
-    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        post = [[transaction ext:DashboardViewID] objectAtIndex:indexPath.row inGroup:group];
-    }];
+    BSMPost *post = [self postForIndexPath:indexPath];
     cell.post = post;
     
     return cell;

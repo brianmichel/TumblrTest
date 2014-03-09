@@ -95,6 +95,16 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
     [self fetchNewPostsSinceMostRecentPost];
 }
 
+- (BSMPost *)postForIndexPath:(NSIndexPath *)indexPath {
+    __block BSMPost *post = nil;
+    NSString *group = [self.mappings groupForSection:indexPath.section];
+    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        post = [[transaction ext:DashboardViewID] objectAtIndex:indexPath.row inGroup:group];
+    }];
+    
+    return post;
+}
+
 #pragma mark - Notification
 - (void)yapDatabaseModified:(NSNotification *)notification {
     //override in subclass

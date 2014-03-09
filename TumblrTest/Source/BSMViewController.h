@@ -10,6 +10,7 @@
 
 @class YapDatabaseConnection;
 @class YapDatabaseViewMappings;
+@class BSMPost;
 
 extern NSString * const ViewControllerCellID;
 extern NSString * const DashboardViewID;
@@ -30,4 +31,6 @@ extern const CGFloat BSMViewControllerScrollLoadThreshhold;
 - (void)fetchPostsWithParameters:(NSDictionary *)parameters;
 - (void)yapDatabaseModified:(NSNotification *)notification;
 - (void)didBeginRefreshing:(UIRefreshControl *)control;
+
+- (BSMPost *)postForIndexPath:(NSIndexPath *)indexPath;
 @end
