@@ -13,11 +13,15 @@
 #import "NSDateFormatter+BSM.h"
 #import "BSMPostContentViewFactory.h"
 
-#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0]
+#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0]
+#define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Light" size:18.0]
+
+const CGFloat PostBaseCellMargin = 5.0;
 
 @interface BSMPostBaseCell () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, readwrite) UIView *containerView;
 @property (strong) UILabel *dateLabel;
+@property (strong) UILabel *blogNameLabel;
 @property (strong) UICollectionView *tagsCollectionView;
 @end
 
@@ -44,10 +48,15 @@
         self.tagsCollectionView.dataSource = self;
         self.tagsCollectionView.scrollsToTop = NO;
         
+        self.blogNameLabel = [UILabel newAutoLayoutView];
+        self.blogNameLabel.font = POST_BLOG_FONT;
+        self.blogNameLabel.textColor = [UIColor crayolaBlackCoralPearlColor];
+        
         self.dateLabel = [UILabel newAutoLayoutView];
         self.dateLabel.textAlignment = NSTextAlignmentCenter;
         self.dateLabel.font = POST_LABEL_FONT;
         
+        [self.contentView addSubview:self.blogNameLabel];
         [self.contentView addSubview:self.dateLabel];
         [self.contentView addSubview:self.tagsCollectionView];
         [self.contentView addSubview:self.containerView];
@@ -58,18 +67,22 @@
 - (void)updateConstraints {
     [super updateConstraints];
     
-    [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:5.0];
-    [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:5.0];
+    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
+    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
+    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:PostBaseCellMargin];
     
-    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:5.0];
-    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:5.0];
-    [self.tagsCollectionView autoPinEdge:ALEdgeTrailing toEdge:ALEdgeLeading ofView:self.dateLabel withOffset:-5.0];
+    [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:PostBaseCellMargin];
+    [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
+    
+    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
+    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:PostBaseCellMargin];
+    [self.tagsCollectionView autoPinEdge:ALEdgeTrailing toEdge:ALEdgeLeading ofView:self.dateLabel withOffset:-PostBaseCellMargin];
     [self.tagsCollectionView autoConstrainAttribute:ALDimensionHeight toAttribute:ALDimensionHeight ofView:self.dateLabel];
     
     [self.containerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:5.0];
-    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:5.0];
-    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:5.0];
+    [self.containerView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.blogNameLabel withOffset:round(PostBaseCellMargin/2)];
+    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
+    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
     [self.containerView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.dateLabel];
 }
 
@@ -116,8 +129,8 @@
 - (void)setPost:(BSMPost *)post {
     if (_post != post) {
         _post = post;
-        //stuff
         self.dateLabel.text = [[NSDateFormatter bsm_shortRelativeDateFormatter] stringFromDate:_post.date];
+        self.blogNameLabel.text = _post.blogName;
         
         UIView *view = [BSMPostContentViewFactory contentViewForPost:_post constrainedToWidth:0.0];
         view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -138,7 +151,7 @@
     BSMPostType type = [postType integerValue];
     switch (type) {
         case BSMPostTypeText:
-            return [UIColor crayolaAmethystColor];
+            return [UIColor crayolaAquamarineColor];
         case BSMPostTypePhoto:
             return [UIColor crayolaOceanGreenPearlColor];
         case BSMPostTypeAudio:
