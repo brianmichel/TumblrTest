@@ -82,7 +82,11 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
             });
         }
         weak.loading = NO;
-        [weak.refreshControl endRefreshing];
+        
+        //well endRefresh seems to really like stopping scrolling events, this forces it to wait
+        //until the next swing of the runloop to do anything. :(
+        //Seems like others are experiencing this: http://blog.wednesdaynight.org/2014/2/2/endRefreshing-while-decelerating
+        [weak.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0];
     }];
 }
 

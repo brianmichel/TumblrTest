@@ -103,10 +103,12 @@
     static CGFloat lastPercentageScrolled = 0.0;
 
     CGFloat percentageScrolled = (offsetY + scrollViewHeight) / contentSizeHeight;
-    if (percentageScrolled > BSMViewControllerScrollLoadThreshhold && percentageScrolled > lastPercentageScrolled && !self.loading) {
-        [self fetchNextPageOfPosts];
+    if (percentageScrolled < CGFLOAT_MAX) {
+        if (percentageScrolled > BSMViewControllerScrollLoadThreshhold && percentageScrolled > lastPercentageScrolled && !self.loading) {
+            [self fetchNextPageOfPosts];
+        }
+        lastPercentageScrolled = percentageScrolled;
     }
-    lastPercentageScrolled = percentageScrolled;
 }
 
 #pragma mark - Notifications
@@ -141,7 +143,7 @@
                     break;
                 }
                 case YapDatabaseViewChangeUpdate:{
-                    //[self.collectionView reloadItemsAtIndexPaths:@[rowChange.indexPath]];
+                    [self.collectionView reloadItemsAtIndexPaths:@[rowChange.indexPath]];
                     break;
                 }
             }
