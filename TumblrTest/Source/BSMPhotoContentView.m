@@ -10,6 +10,7 @@
 #import "BSMPhotoContentView.h"
 #import "BSMPost.h"
 #import "BSMPhoto.h"
+#import "UIImageView+BSM.h"
 
 @interface BSMPhotoContentView ()
 @property (strong) UIImageView *imageView;
@@ -27,6 +28,19 @@
         [self addSubview:self.imageView];
     }
     return self;
+}
+
+- (void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    if (self.superview) {
+        BSMPhotoPost *photoPost = [self photoPost];
+        BSMPhoto *photo = [photoPost.photos firstObject];
+        if (photo) {
+            NSArray *sizes = photo.sizes;
+            BSMPhotoSize *firstSize = sizes[1];
+            [self.imageView loadImageAtURLAndFlash:firstSize.URL];
+        }
+    }
 }
 
 - (void)layoutSubviews {
@@ -47,8 +61,6 @@
         NSInteger height = [firstSize.height integerValue];
         
         CGSize size = [self sizeForImageWithSize:CGSizeMake(width, height) viewSize:CGSizeMake(250.0, 300)];
- 
-        [self.imageView setImageWithURL:firstSize.URL];
         self.frame = CGRectMake(0, 0, size.width, size.height);
     }
 }

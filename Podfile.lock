@@ -9,9 +9,9 @@ PODS:
   - Mantle (1.4):
     - Mantle/extobjc
   - Mantle/extobjc (1.4)
-  - SDWebImage (3.5.2):
+  - SDWebImage (3.5.4):
     - SDWebImage/Core
-  - SDWebImage/Core (3.5.2)
+  - SDWebImage/Core (3.5.4)
   - TMTumblrSDK (1.0.6):
     - TMTumblrSDK/Activity
     - TMTumblrSDK/APIClient
@@ -34,17 +34,22 @@ PODS:
 
 DEPENDENCIES:
   - Mantle
-  - SDWebImage
+  - SDWebImage (from `git@github.com:brianmichel/SDWebImage.git`, branch `feature/force-gif-decode`)
   - TMTumblrSDK
   - UIColor-Crayola
   - UIView+AutoLayout
   - YapDatabase
 
+EXTERNAL SOURCES:
+  SDWebImage:
+    :branch: feature/force-gif-decode
+    :git: git@github.com:brianmichel/SDWebImage.git
+
 SPEC CHECKSUMS:
   CocoaLumberjack: 17803afbade3126a377d32b8d23367264b44ced6
   JXHTTP: 04f027e55c252d206cf3fcc2a2bde3914a35d842
   Mantle: de026e86c183c5adfd453c1d8419babb787fea97
-  SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
+  SDWebImage: 1a62010700adbba823b621fc217906739dbf6aa5
   TMTumblrSDK: cc16af8cfc8124926ab202455c1a6c87ff8725b3
   UIColor-Crayola: 20eacda0777fd487efba6831e2b34625e8ce3ceb
   UIView+AutoLayout: 1bcec87eaa77ffa088dc37e061d25fdead740089

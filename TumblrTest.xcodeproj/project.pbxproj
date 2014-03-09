@@ -19,6 +19,7 @@
 		48A02C2C18CCB6EA000C3FFA /* BSMBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2B18CCB6EA000C3FFA /* BSMBaseContentView.m */; };
 		48A02C2F18CCB742000C3FFA /* BSMPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2E18CCB742000C3FFA /* BSMPhotoContentView.m */; };
 		48A02C3218CCE44A000C3FFA /* BSMLinkContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C3118CCE44A000C3FFA /* BSMLinkContentView.m */; };
+		48A02C3518CD0EEF000C3FFA /* UIImageView+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C3418CD0EEF000C3FFA /* UIImageView+BSM.m */; };
 		48BC70F418CB5B3F00706E01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BC70F318CB5B3F00706E01 /* Foundation.framework */; };
 		48BC70F618CB5B3F00706E01 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BC70F518CB5B3F00706E01 /* CoreGraphics.framework */; };
 		48BC70F818CB5B3F00706E01 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BC70F718CB5B3F00706E01 /* UIKit.framework */; };
@@ -71,6 +72,8 @@
 		48A02C2E18CCB742000C3FFA /* BSMPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMPhotoContentView.m; path = Source/BSMPhotoContentView.m; sourceTree = "<group>"; };
 		48A02C3018CCE44A000C3FFA /* BSMLinkContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMLinkContentView.h; path = Source/BSMLinkContentView.h; sourceTree = "<group>"; };
 		48A02C3118CCE44A000C3FFA /* BSMLinkContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMLinkContentView.m; path = Source/BSMLinkContentView.m; sourceTree = "<group>"; };
+		48A02C3318CD0EEF000C3FFA /* UIImageView+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+BSM.h"; path = "Source/UIImageView+BSM.h"; sourceTree = "<group>"; };
+		48A02C3418CD0EEF000C3FFA /* UIImageView+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+BSM.m"; path = "Source/UIImageView+BSM.m"; sourceTree = "<group>"; };
 		48BC70F018CB5B3F00706E01 /* TumblrTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48BC70F318CB5B3F00706E01 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		48BC70F518CB5B3F00706E01 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -264,6 +267,8 @@
 				48C4A6AF18CB895F00AF6950 /* YapDatabaseView+BSM.m */,
 				4829199C18CB9FF8003117A8 /* NSDateFormatter+BSM.h */,
 				4829199D18CB9FF8003117A8 /* NSDateFormatter+BSM.m */,
+				48A02C3318CD0EEF000C3FFA /* UIImageView+BSM.h */,
+				48A02C3418CD0EEF000C3FFA /* UIImageView+BSM.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -414,6 +419,7 @@
 				48A02C2C18CCB6EA000C3FFA /* BSMBaseContentView.m in Sources */,
 				482919AB18CBF81D003117A8 /* BSMPostBaseTableViewCell.m in Sources */,
 				48BC710418CB5B3F00706E01 /* BSMAppDelegate.m in Sources */,
+				48A02C3518CD0EEF000C3FFA /* UIImageView+BSM.m in Sources */,
 				48C4A6AA18CB790800AF6950 /* BSMTumblrDatabase.m in Sources */,
 				48BC710A18CB5B3F00706E01 /* BSMCollectionViewController.m in Sources */,
 				482919B118CBFC58003117A8 /* BSMViewController.m in Sources */,
