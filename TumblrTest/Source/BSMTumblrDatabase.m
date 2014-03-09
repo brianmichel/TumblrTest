@@ -45,6 +45,9 @@
 
 - (void)setupDatabaseAndConnections {
     self.database = [[YapDatabase alloc] initWithPath:[self databasePath]];
+    self.database.defaultObjectPolicy = YapDatabasePolicyCopy;
+    self.database.defaultMetadataPolicy = YapDatabasePolicyCopy;
+    
     self.writeConnection = [self.database newConnection];
     self.readConnection = [self.database newConnection];
 }

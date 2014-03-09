@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, BSMPostType) {
 @property (copy, readonly) NSNumber *type;
 
 + (BSMPostType)postTypeFromString:(NSString *)string;
++ (NSString *)typeStringFromPostType:(NSNumber *)type;
 @end
 
 @interface BSMTextPost : BSMPost

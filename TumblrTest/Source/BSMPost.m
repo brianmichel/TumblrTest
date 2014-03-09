@@ -10,6 +10,7 @@
 #import "BSMPhoto.h"
 
 static NSDictionary *postTypeToStringMapping = nil;
+static NSDictionary *stringToPostTypeMapping = nil;
 
 @implementation BSMPost
 
@@ -17,7 +18,7 @@ static NSDictionary *postTypeToStringMapping = nil;
 + (BSMPostType)postTypeFromString:(NSString *)string {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        postTypeToStringMapping = @{
+        stringToPostTypeMapping = @{
                                     @"text" : @(BSMPostTypeText),
                                     @"quote" : @(BSMPostTypeQuote),
                                     @"link" : @(BSMPostTypeLink),
@@ -28,8 +29,27 @@ static NSDictionary *postTypeToStringMapping = nil;
                                     @"chat" : @(BSMPostTypeChat)
                                     };
     });
-    NSNumber *postTypeNumber = postTypeToStringMapping[string];
+    NSNumber *postTypeNumber = stringToPostTypeMapping[string];
     return postTypeNumber ? [postTypeNumber integerValue] : BSMPostTypeUnknown;
+}
+
++ (NSString *)typeStringFromPostType:(NSNumber *)type {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        postTypeToStringMapping = @{
+                                    @(BSMPostTypeText) : @"text",
+                                    @(BSMPostTypeQuote) : @"quote",
+                                    @(BSMPostTypeLink) : @"link",
+                                    @(BSMPostTypeAnswer) : @"answer",
+                                    @(BSMPostTypeVideo) : @"video",
+                                    @(BSMPostTypeAudio) : @"audio",
+                                    @(BSMPostTypePhoto) : @"photo",
+                                    @(BSMPostTypeChat) : @"chat",
+                                    @(BSMPostTypeUnknown) : @"unknown"
+                                    };
+    });
+    
+    return postTypeToStringMapping[type];
 }
 
 + (Class)classForParsingJSONDictionary:(NSDictionary *)JSONDictionary {
@@ -88,7 +108,7 @@ static NSDictionary *postTypeToStringMapping = nil;
 }
 
 + (NSValueTransformer *)typeJSONTransformer {
-    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:postTypeToStringMapping];
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:stringToPostTypeMapping];
 }
 
 @end

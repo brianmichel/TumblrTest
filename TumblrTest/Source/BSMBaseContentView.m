@@ -9,6 +9,10 @@
 #import "BSMBaseContentView.h"
 #import "BSMPost.h"
 
+@interface BSMBaseContentView ()
+@property (strong) UILabel *postTypeLabel;
+@end
+
 @implementation BSMBaseContentView
 
 @synthesize post = _post;
@@ -18,6 +22,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.postTypeLabel = [[UILabel alloc] init];
+        self.postTypeLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        self.postTypeLabel.textAlignment = NSTextAlignmentCenter;
+        self.postTypeLabel.font = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:30.0];
+        self.postTypeLabel.textColor = [UIColor darkGrayColor];
+        
+        [self addSubview:self.postTypeLabel];
     }
     return self;
 }
@@ -27,6 +38,7 @@
         return;
     }
     _post = post;
+    self.postTypeLabel.text = [BSMPost typeStringFromPostType:_post.type];
     [self updateFrameAfterSettingPost];
 }
 

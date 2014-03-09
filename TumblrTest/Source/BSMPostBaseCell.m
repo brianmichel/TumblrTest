@@ -31,7 +31,7 @@
     if (self) {
         // Initialization code
         self.containerView = [UIView newAutoLayoutView];
-        self.containerView.backgroundColor = [UIColor blueColor];
+        self.containerView.backgroundColor = [UIColor lightGrayColor];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
