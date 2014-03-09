@@ -13,6 +13,7 @@
 #import "BSMTumblrDatabase.h"
 #import "YapDatabaseView+BSM.h"
 #import "BSMPostBaseCell.h"
+#import "BSMPostContentViewFactory.h"
 
 @interface BSMCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) UICollectionView *collectionView;
@@ -20,17 +21,21 @@
 
 @implementation BSMCollectionViewController
 
-- (void)setupCollectionView {
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
-    self.collectionView.backgroundColor = [UIColor clearColor];
-    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    self.collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
-    [self.collectionView addSubview:self.refreshControl];
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
+        self.collectionView.backgroundColor = [UIColor clearColor];
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.collectionView.dataSource = self;
+        self.collectionView.delegate = self;
+        self.collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
+        [self.collectionView addSubview:self.refreshControl];
+    }
+    return self;
 }
 
 - (void)viewDidLoad
@@ -62,7 +67,19 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     UIEdgeInsets insets = collectionView.contentInset;
-    return CGSizeMake(collectionView.frame.size.width - (insets.left + insets.right), 200);
+    NSInteger randomHeight = arc4random_uniform(500);
+    randomHeight = MAX(80, randomHeight);
+    
+    
+    __block BSMPost *post = nil;
+    NSString *group = [self.mappings groupForSection:indexPath.section];
+    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        post = [[transaction ext:DashboardViewID] objectAtIndex:indexPath.row inGroup:group];
+    }];
+
+    
+    UIView *view = [BSMPostContentViewFactory contentViewForPost:post constrainedToWidth:0.0];
+    return CGSizeMake(collectionView.frame.size.width - (insets.left + insets.right), view.frame.size.height + 40);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,11 +141,11 @@
                     break;
                 }
                 case YapDatabaseViewChangeUpdate:{
-                    [self.collectionView reloadItemsAtIndexPaths:@[rowChange.indexPath]];
+                    //[self.collectionView reloadItemsAtIndexPaths:@[rowChange.indexPath]];
                     break;
                 }
             }
-    }
+        }
     } completion:nil];
 }
 @end
