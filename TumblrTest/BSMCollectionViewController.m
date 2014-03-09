@@ -79,7 +79,7 @@
 
     
     UIView *view = [BSMPostContentViewFactory contentViewForPost:post constrainedToWidth:0.0];
-    return CGSizeMake(collectionView.frame.size.width - (insets.left + insets.right), view.frame.size.height + 40);
+    return CGSizeMake(collectionView.frame.size.width - (insets.left + insets.right), view.frame.size.height + 50);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
