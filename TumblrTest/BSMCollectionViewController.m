@@ -31,16 +31,15 @@
         [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
         self.collectionView.backgroundColor = [UIColor bsm_TumblrBlue];
         self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
-        self.collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
         [self.collectionView addSubview:self.refreshControl];
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
 }
@@ -86,6 +85,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    //TODO this feels kind of ugly, is there a better way?
     CGFloat offsetY = scrollView.contentOffset.y;
     CGFloat contentSizeHeight = scrollView.contentSize.height;
     CGFloat scrollViewHeight = scrollView.frame.size.height;

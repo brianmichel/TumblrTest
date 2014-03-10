@@ -13,9 +13,9 @@
 		482919A518CBC364003117A8 /* BSMSimpleLabelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 482919A418CBC364003117A8 /* BSMSimpleLabelCollectionViewCell.m */; };
 		482919A818CBD664003117A8 /* BSMPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 482919A718CBD664003117A8 /* BSMPhoto.m */; };
 		482919AB18CBF81D003117A8 /* BSMPostBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 482919AA18CBF81D003117A8 /* BSMPostBaseTableViewCell.m */; };
-		482919AE18CBFB40003117A8 /* BSMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 482919AD18CBFB40003117A8 /* BSMTableViewController.m */; };
-		482919B118CBFC58003117A8 /* BSMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 482919B018CBFC58003117A8 /* BSMViewController.m */; };
+		482919B118CBFC58003117A8 /* BSMBasePostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 482919B018CBFC58003117A8 /* BSMBasePostsViewController.m */; };
 		4867079218CD2B9800AEF074 /* BSMTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867079118CD2B9800AEF074 /* BSMTheme.m */; };
+		4867079518CD47B600AEF074 /* NSString+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867079418CD47B600AEF074 /* NSString+BSM.m */; };
 		48A02C2818CCB613000C3FFA /* BSMPostContentViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2718CCB613000C3FFA /* BSMPostContentViewFactory.m */; };
 		48A02C2C18CCB6EA000C3FFA /* BSMBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2B18CCB6EA000C3FFA /* BSMBaseContentView.m */; };
 		48A02C2F18CCB742000C3FFA /* BSMPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2E18CCB742000C3FFA /* BSMPhotoContentView.m */; };
@@ -61,12 +61,12 @@
 		482919A718CBD664003117A8 /* BSMPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMPhoto.m; path = Source/BSMPhoto.m; sourceTree = "<group>"; };
 		482919A918CBF81D003117A8 /* BSMPostBaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMPostBaseTableViewCell.h; path = Source/BSMPostBaseTableViewCell.h; sourceTree = "<group>"; };
 		482919AA18CBF81D003117A8 /* BSMPostBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMPostBaseTableViewCell.m; path = Source/BSMPostBaseTableViewCell.m; sourceTree = "<group>"; };
-		482919AC18CBFB40003117A8 /* BSMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMTableViewController.h; path = Source/BSMTableViewController.h; sourceTree = "<group>"; };
-		482919AD18CBFB40003117A8 /* BSMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMTableViewController.m; path = Source/BSMTableViewController.m; sourceTree = "<group>"; };
-		482919AF18CBFC58003117A8 /* BSMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMViewController.h; path = Source/BSMViewController.h; sourceTree = "<group>"; };
-		482919B018CBFC58003117A8 /* BSMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMViewController.m; path = Source/BSMViewController.m; sourceTree = "<group>"; };
+		482919AF18CBFC58003117A8 /* BSMBasePostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMBasePostsViewController.h; path = Source/BSMBasePostsViewController.h; sourceTree = "<group>"; };
+		482919B018CBFC58003117A8 /* BSMBasePostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMBasePostsViewController.m; path = Source/BSMBasePostsViewController.m; sourceTree = "<group>"; };
 		4867079018CD2B9800AEF074 /* BSMTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMTheme.h; path = Source/BSMTheme.h; sourceTree = "<group>"; };
 		4867079118CD2B9800AEF074 /* BSMTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMTheme.m; path = Source/BSMTheme.m; sourceTree = "<group>"; };
+		4867079318CD47B600AEF074 /* NSString+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BSM.h"; path = "Source/NSString+BSM.h"; sourceTree = "<group>"; };
+		4867079418CD47B600AEF074 /* NSString+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BSM.m"; path = "Source/NSString+BSM.m"; sourceTree = "<group>"; };
 		48A02C2618CCB613000C3FFA /* BSMPostContentViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMPostContentViewFactory.h; path = Source/BSMPostContentViewFactory.h; sourceTree = "<group>"; };
 		48A02C2718CCB613000C3FFA /* BSMPostContentViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMPostContentViewFactory.m; path = Source/BSMPostContentViewFactory.m; sourceTree = "<group>"; };
 		48A02C2A18CCB6EA000C3FFA /* BSMBaseContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMBaseContentView.h; path = Source/BSMBaseContentView.h; sourceTree = "<group>"; };
@@ -212,11 +212,9 @@
 				48BC710318CB5B3F00706E01 /* BSMAppDelegate.m */,
 				48BC710818CB5B3F00706E01 /* BSMCollectionViewController.h */,
 				48BC710918CB5B3F00706E01 /* BSMCollectionViewController.m */,
-				482919AC18CBFB40003117A8 /* BSMTableViewController.h */,
-				482919AD18CBFB40003117A8 /* BSMTableViewController.m */,
+				482919AF18CBFC58003117A8 /* BSMBasePostsViewController.h */,
+				482919B018CBFC58003117A8 /* BSMBasePostsViewController.m */,
 				48BC70FA18CB5B3F00706E01 /* Supporting Files */,
-				482919AF18CBFC58003117A8 /* BSMViewController.h */,
-				482919B018CBFC58003117A8 /* BSMViewController.m */,
 			);
 			path = TumblrTest;
 			sourceTree = "<group>";
@@ -274,6 +272,8 @@
 				4829199D18CB9FF8003117A8 /* NSDateFormatter+BSM.m */,
 				48A02C3318CD0EEF000C3FFA /* UIImageView+BSM.h */,
 				48A02C3418CD0EEF000C3FFA /* UIImageView+BSM.m */,
+				4867079318CD47B600AEF074 /* NSString+BSM.h */,
+				4867079418CD47B600AEF074 /* NSString+BSM.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -411,7 +411,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				482919AE18CBFB40003117A8 /* BSMTableViewController.m in Sources */,
 				482919A518CBC364003117A8 /* BSMSimpleLabelCollectionViewCell.m in Sources */,
 				48A02C2F18CCB742000C3FFA /* BSMPhotoContentView.m in Sources */,
 				48A02C2818CCB613000C3FFA /* BSMPostContentViewFactory.m in Sources */,
@@ -424,11 +423,12 @@
 				48A02C2C18CCB6EA000C3FFA /* BSMBaseContentView.m in Sources */,
 				482919AB18CBF81D003117A8 /* BSMPostBaseTableViewCell.m in Sources */,
 				4867079218CD2B9800AEF074 /* BSMTheme.m in Sources */,
+				4867079518CD47B600AEF074 /* NSString+BSM.m in Sources */,
 				48BC710418CB5B3F00706E01 /* BSMAppDelegate.m in Sources */,
 				48A02C3518CD0EEF000C3FFA /* UIImageView+BSM.m in Sources */,
 				48C4A6AA18CB790800AF6950 /* BSMTumblrDatabase.m in Sources */,
 				48BC710A18CB5B3F00706E01 /* BSMCollectionViewController.m in Sources */,
-				482919B118CBFC58003117A8 /* BSMViewController.m in Sources */,
+				482919B118CBFC58003117A8 /* BSMBasePostsViewController.m in Sources */,
 				48C4A6B018CB895F00AF6950 /* YapDatabaseView+BSM.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,7 @@
 
 #import <YapDatabase/YapDatabase.h>
 #import <Mantle/Mantle.h>
-#import "BSMViewController.h"
+#import "BSMBasePostsViewController.h"
 #import "BSMTumblrDatabase.h"
 #import "YapDatabaseView+BSM.h"
 #import "BSMPost.h"
@@ -18,11 +18,11 @@ NSString * const DashboardViewID = @"dashboard";
 
 const NSInteger BSMViewControllerNumberOfItemsPerPage = 20;
 const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
-@interface BSMViewController ()
+@interface BSMBasePostsViewController ()
 
 @end
 
-@implementation BSMViewController
+@implementation BSMBasePostsViewController
 
 - (void)commonInit {
     self.refreshControl = [[UIRefreshControl alloc] init];

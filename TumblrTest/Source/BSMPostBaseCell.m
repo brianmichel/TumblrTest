@@ -12,6 +12,7 @@
 #import "BSMPost.h"
 #import "BSMSimpleLabelCollectionViewCell.h"
 #import "NSDateFormatter+BSM.h"
+#import "NSString+BSM.h"
 #import "BSMPostContentViewFactory.h"
 #import "BSMBaseContentView.h"
 
@@ -148,7 +149,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     UILabel *label = [[UILabel alloc] init];
     label.font = POST_LABEL_FONT;
-    label.text = [NSString stringWithFormat:@"#%@", self.post.tags[indexPath.row]];
+    label.text = [self.post.tags[indexPath.row] bsm_hashTagify];
     CGSize size = [label systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size;
 }
@@ -160,7 +161,7 @@
     cell.textLabel.textColor = [UIColor darkGrayColor];
     cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"#%@", self.post.tags[indexPath.row]];
+    cell.textLabel.text = [self.post.tags[indexPath.row] bsm_hashTagify];
     return cell;
 }
 

@@ -18,7 +18,7 @@ extern NSString * const DashboardViewID;
 extern const NSInteger BSMViewControllerNumberOfItemsPerPage;
 extern const CGFloat BSMViewControllerScrollLoadThreshhold;
 
-@interface BSMViewController : UIViewController
+@interface BSMBasePostsViewController : UIViewController
 @property (strong) dispatch_queue_t processingQueue;
 @property (strong) YapDatabaseConnection *connection;
 @property (strong) YapDatabaseViewMappings *mappings;

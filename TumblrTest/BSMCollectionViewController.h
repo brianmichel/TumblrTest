@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BSMViewController.h"
+#import "BSMBasePostsViewController.h"
 
-@interface BSMCollectionViewController : BSMViewController
+@interface BSMCollectionViewController : BSMBasePostsViewController
 
 @end
