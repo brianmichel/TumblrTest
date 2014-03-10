@@ -84,10 +84,12 @@
     NSString *combinedString = [NSString stringWithFormat:@"%@ \n\n %@", title, host];
     
     NSRange hostRange = [combinedString rangeOfString:host];
+    NSRange titleRange = [combinedString rangeOfString:title];
     NSRange fullRange = NSMakeRange(0, [combinedString length]);
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:combinedString];
     [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0] range:fullRange];
+    [attributedString addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:titleRange];
     [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue" size:20.0] range:hostRange];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:fullRange];
     
