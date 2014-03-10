@@ -17,6 +17,7 @@
 
 @interface BSMCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) UICollectionView *collectionView;
+@property (strong) UIView *statusBarBackground;
 @end
 
 @implementation BSMCollectionViewController
@@ -31,10 +32,16 @@
         [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
         self.collectionView.backgroundColor = [UIColor bsm_TumblrBlue];
         self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         [self.collectionView addSubview:self.refreshControl];
+        
+        self.statusBarBackground = [UIView newAutoLayoutView];
+        self.statusBarBackground.backgroundColor = [UIColor bsm_TumblrBlue];
+        
+        //I really wish I could figure out why topLayoutGuide isn't set :(
+        self.collectionView.contentInset = UIEdgeInsetsMake(25, 10, 10, 10);
+        self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(25, 0, 0, 0);
     }
     return self;
 }
@@ -42,6 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.statusBarBackground];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -56,6 +64,15 @@
 - (void)updateViewConstraints {
     [super updateViewConstraints];
     [self.collectionView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    
+    [self.statusBarBackground autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
+    [self.statusBarBackground autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
+    [self.statusBarBackground autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.0];
+    [self.statusBarBackground autoSetDimension:ALDimensionHeight toSize:20.0];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - UICollectionViewDataSource / UICollectionViewDelegate

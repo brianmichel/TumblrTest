@@ -105,8 +105,8 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
     return post;
 }
 
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - Notification
