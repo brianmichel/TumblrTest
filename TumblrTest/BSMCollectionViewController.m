@@ -130,6 +130,10 @@
     return cell;
 }
 
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     //TODO this feels kind of ugly, is there a better way?
     CGFloat offsetY = scrollView.contentOffset.y;
