@@ -127,14 +127,14 @@
     
     [self.tagsCollectionView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
-    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
+    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:1];
     [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
     [self.tagsCollectionView autoPinEdge:ALEdgeTrailing toEdge:ALEdgeLeading ofView:self.notesLabel withOffset:-MarginSizes.small];
     [self.tagsCollectionView autoSetDimension:ALDimensionHeight toSize:35.0];
     
     [self.notesLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.notesLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:MarginSizes.small];
-    [self.notesLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
+    [self.notesLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:1];
     [self.notesLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
     
     [self.notesDividerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
@@ -144,7 +144,7 @@
     [self.notesDividerView autoPinEdge:ALEdgeLeading toEdge:ALEdgeLeading ofView:self.notesLabel withOffset:-MarginSizes.small];
     
     [self.containerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.containerView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.avatarImageView withOffset:round(MarginSizes.small/2)];
+    [self.containerView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.avatarImageView withOffset:MarginSizes.small];
     [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:MarginSizes.small];
     [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:MarginSizes.small];
     [self.containerView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.bottomSectionBackground withOffset:-MarginSizes.small];
