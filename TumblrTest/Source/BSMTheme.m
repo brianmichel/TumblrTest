@@ -19,7 +19,7 @@ const struct MarginSizes MarginSizes = {
 
 @end
 
-@implementation UIColor (BSM)
+@implementation UIColor (BSM_Theme)
 
 + (UIColor *)bsm_TumblrBlue {
     return [UIColor colorWithRed:0.173 green:0.278 blue:0.384 alpha:1.0];
@@ -31,6 +31,19 @@ const struct MarginSizes MarginSizes = {
 
 + (UIColor *)bsm_tumblrLightGray {
     return [UIColor colorWithRed:0.857 green:0.857 blue:0.857 alpha:1.0];
+}
+
+@end
+
+@implementation UIImage (BSM_Theme)
+
++ (UIImage *)bsm_coloredImageOfSize:(CGSize)size color:(UIColor *)color scale:(CGFloat)scale alpha:(CGFloat)alpha {
+    UIGraphicsBeginImageContextWithOptions(size, NO, scale);
+    [[color colorWithAlphaComponent:alpha] set];
+    UIRectFill(CGRectMake(0, 0, size.width, size.height));
+    UIImage *bgImage = [UIGraphicsGetImageFromCurrentImageContext() resizableImageWithCapInsets:UIEdgeInsetsMake(1, 1, 1, 1)];
+    UIGraphicsEndImageContext();
+    return bgImage;
 }
 
 @end

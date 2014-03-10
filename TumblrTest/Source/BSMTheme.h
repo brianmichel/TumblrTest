@@ -18,8 +18,12 @@ extern const struct MarginSizes {
 @interface BSMTheme : NSObject
 @end
 
-@interface UIColor (BSM)
+@interface UIColor (BSM_Theme)
 + (UIColor *)bsm_TumblrBlue;
 + (UIColor *)bsm_tumblrGreen;
 + (UIColor *)bsm_tumblrLightGray;
+@end
+
+@interface UIImage (BSM_Theme)
++ (UIImage *)bsm_coloredImageOfSize:(CGSize)size color:(UIColor *)color scale:(CGFloat)scale alpha:(CGFloat)alpha;
 @end

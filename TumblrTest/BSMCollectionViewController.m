@@ -12,6 +12,7 @@
 #import "BSMPost.h"
 #import "BSMTumblrDatabase.h"
 #import "YapDatabaseView+BSM.h"
+#import "UIScrollView+BSM.h"
 #import "BSMPostBaseCell.h"
 #import "BSMPostContentViewFactory.h"
 
@@ -41,7 +42,8 @@
         
         //I really wish I could figure out why topLayoutGuide isn't set :(
         self.collectionView.contentInset = UIEdgeInsetsMake(25, 10, 10, 10);
-        self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(25, 0, 0, 0);
+        self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(25, 0, 0, -4);
+        
     }
     return self;
 }
@@ -59,6 +61,7 @@
     [self.refreshControl beginRefreshing];
     [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, -self.refreshControl.frame.size.height) animated:YES];
     [self didBeginRefreshing:self.refreshControl];
+    [self setupScrollIndicatorImages];
 }
 
 - (void)updateViewConstraints {
@@ -158,5 +161,15 @@
             }
         }
     } completion:nil];
+}
+
+#pragma mark - Actions
+- (void)setupScrollIndicatorImages {
+    UIView *verticalScrollIndicatorView = [self.collectionView bsm_scrollIndicatorForPosition:ScrollIndicatorPositionVertical];
+    if ([verticalScrollIndicatorView isKindOfClass:[UIImageView class]]) {
+        UIImage *indicatorImage = [UIImage bsm_coloredImageOfSize:CGSizeMake(4, 4) color:[UIColor whiteColor] scale:[UIScreen mainScreen].scale alpha:0.2];
+        indicatorImage = [indicatorImage resizableImageWithCapInsets:UIEdgeInsetsMake(2, 2, 2, 2)];
+        ((UIImageView *)verticalScrollIndicatorView).image = indicatorImage;
+    }
 }
 @end

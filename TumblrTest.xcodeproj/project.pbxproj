@@ -16,6 +16,7 @@
 		482919B118CBFC58003117A8 /* BSMBasePostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 482919B018CBFC58003117A8 /* BSMBasePostsViewController.m */; };
 		4867079218CD2B9800AEF074 /* BSMTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867079118CD2B9800AEF074 /* BSMTheme.m */; };
 		4867079518CD47B600AEF074 /* NSString+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867079418CD47B600AEF074 /* NSString+BSM.m */; };
+		4867079818CD534B00AEF074 /* UIScrollView+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867079718CD534B00AEF074 /* UIScrollView+BSM.m */; };
 		48A02C2818CCB613000C3FFA /* BSMPostContentViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2718CCB613000C3FFA /* BSMPostContentViewFactory.m */; };
 		48A02C2C18CCB6EA000C3FFA /* BSMBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2B18CCB6EA000C3FFA /* BSMBaseContentView.m */; };
 		48A02C2F18CCB742000C3FFA /* BSMPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A02C2E18CCB742000C3FFA /* BSMPhotoContentView.m */; };
@@ -67,6 +68,8 @@
 		4867079118CD2B9800AEF074 /* BSMTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMTheme.m; path = Source/BSMTheme.m; sourceTree = "<group>"; };
 		4867079318CD47B600AEF074 /* NSString+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BSM.h"; path = "Source/NSString+BSM.h"; sourceTree = "<group>"; };
 		4867079418CD47B600AEF074 /* NSString+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BSM.m"; path = "Source/NSString+BSM.m"; sourceTree = "<group>"; };
+		4867079618CD534B00AEF074 /* UIScrollView+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+BSM.h"; path = "Source/UIScrollView+BSM.h"; sourceTree = "<group>"; };
+		4867079718CD534B00AEF074 /* UIScrollView+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+BSM.m"; path = "Source/UIScrollView+BSM.m"; sourceTree = "<group>"; };
 		48A02C2618CCB613000C3FFA /* BSMPostContentViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMPostContentViewFactory.h; path = Source/BSMPostContentViewFactory.h; sourceTree = "<group>"; };
 		48A02C2718CCB613000C3FFA /* BSMPostContentViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMPostContentViewFactory.m; path = Source/BSMPostContentViewFactory.m; sourceTree = "<group>"; };
 		48A02C2A18CCB6EA000C3FFA /* BSMBaseContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSMBaseContentView.h; path = Source/BSMBaseContentView.h; sourceTree = "<group>"; };
@@ -274,6 +277,8 @@
 				48A02C3418CD0EEF000C3FFA /* UIImageView+BSM.m */,
 				4867079318CD47B600AEF074 /* NSString+BSM.h */,
 				4867079418CD47B600AEF074 /* NSString+BSM.m */,
+				4867079618CD534B00AEF074 /* UIScrollView+BSM.h */,
+				4867079718CD534B00AEF074 /* UIScrollView+BSM.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -421,6 +426,7 @@
 				48BC710018CB5B3F00706E01 /* main.m in Sources */,
 				4829199B18CB9F52003117A8 /* BSMPostBaseCell.m in Sources */,
 				48A02C2C18CCB6EA000C3FFA /* BSMBaseContentView.m in Sources */,
+				4867079818CD534B00AEF074 /* UIScrollView+BSM.m in Sources */,
 				482919AB18CBF81D003117A8 /* BSMPostBaseTableViewCell.m in Sources */,
 				4867079218CD2B9800AEF074 /* BSMTheme.m in Sources */,
 				4867079518CD47B600AEF074 /* NSString+BSM.m in Sources */,
