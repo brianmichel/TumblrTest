@@ -73,7 +73,7 @@
 
     CGFloat width = collectionView.frame.size.width - (insets.left + insets.right);
     UIView *view = [BSMPostContentViewFactory contentViewForPost:post constrainedToWidth:width];
-    return CGSizeMake(width, view.frame.size.height + 50);
+    return CGSizeMake(width, view.frame.size.height + [BSMPostContentViewFactory defaultElementsHeight]);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {

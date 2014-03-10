@@ -39,4 +39,8 @@ static NSCache *postContentViewCache = nil;
         
     return contentView;
 }
+
++ (CGFloat)defaultElementsHeight {
+    return 110.0;
+}
 @end

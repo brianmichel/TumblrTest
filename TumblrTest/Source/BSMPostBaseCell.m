@@ -7,6 +7,7 @@
 //
 
 #import <UIColor-Crayola/UIColor+Crayola.h>
+#import "UIImageView+BSM.h"
 #import "BSMPostBaseCell.h"
 #import "BSMPost.h"
 #import "BSMSimpleLabelCollectionViewCell.h"
@@ -14,16 +15,16 @@
 #import "BSMPostContentViewFactory.h"
 #import "BSMBaseContentView.h"
 
-#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue" size:20.0]
+#define POST_LABEL_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Medium" size:16.0]
 #define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:18.0]
-
-const CGFloat PostBaseCellMargin = 5.0;
 
 @interface BSMPostBaseCell () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, readwrite) UIView *containerView;
 @property (strong) UILabel *dateLabel;
 @property (strong) UILabel *blogNameLabel;
 @property (strong) UICollectionView *tagsCollectionView;
+
+@property (strong) UIImageView *avatarImageView;
 
 @property (strong) UIView *bottomSectionBackground;
 @property (strong) UIView *dividerView;
@@ -42,6 +43,9 @@ const CGFloat PostBaseCellMargin = 5.0;
         // Initialization code
         self.backgroundColor = [UIColor whiteColor];
         
+        self.avatarImageView = [UIImageView newAutoLayoutView];
+        self.avatarImageView.backgroundColor = [UIColor darkGrayColor];
+        
         self.containerView = [UIView newAutoLayoutView];
         self.containerView.backgroundColor = [UIColor lightGrayColor];
         
@@ -58,6 +62,7 @@ const CGFloat PostBaseCellMargin = 5.0;
         self.tagsCollectionView.delegate = self;
         self.tagsCollectionView.dataSource = self;
         self.tagsCollectionView.scrollsToTop = NO;
+        self.tagsCollectionView.contentInset = UIEdgeInsetsMake(0, MarginSizes.small, 0, MarginSizes.small);
         
         self.blogNameLabel = [UILabel newAutoLayoutView];
         self.blogNameLabel.font = POST_BLOG_FONT;
@@ -73,6 +78,7 @@ const CGFloat PostBaseCellMargin = 5.0;
         
         [self.contentView addSubview:self.bottomSectionBackground];
         [self.contentView addSubview:self.blogNameLabel];
+        [self.contentView addSubview:self.avatarImageView];
         [self.bottomSectionBackground addSubview:self.tagsCollectionView];
         [self.bottomSectionBackground addSubview:self.dividerView];
         [self.contentView addSubview:self.containerView];
@@ -90,10 +96,16 @@ const CGFloat PostBaseCellMargin = 5.0;
         return;
     }
     
+    [self.avatarImageView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.avatarImageView autoSetDimension:ALDimensionHeight toSize:32.0];
+    [self.avatarImageView autoSetDimension:ALDimensionWidth toSize:32.0];
+    [self.avatarImageView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:MarginSizes.small];
+    [self.avatarImageView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:MarginSizes.small];
+    
     [self.blogNameLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:MarginSizes.small];
+    [self.blogNameLabel autoPinEdge:ALEdgeLeading toEdge:ALEdgeTrailing ofView:self.avatarImageView withOffset:MarginSizes.small];
     [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:MarginSizes.small];
-    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:MarginSizes.small];
+    [self.blogNameLabel  autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.avatarImageView];
     
     [self.bottomSectionBackground setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.bottomSectionBackground autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0];
@@ -108,10 +120,10 @@ const CGFloat PostBaseCellMargin = 5.0;
     [self.dividerView autoSetDimension:ALDimensionHeight toSize:(1 / [UIScreen mainScreen].scale)];
     
     [self.tagsCollectionView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.tagsCollectionView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, MarginSizes.small, 0, MarginSizes.small)];
+    [self.tagsCollectionView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     
     [self.containerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.containerView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.blogNameLabel withOffset:round(PostBaseCellMargin/2)];
+    [self.containerView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.avatarImageView withOffset:round(MarginSizes.small/2)];
     [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:MarginSizes.small];
     [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:MarginSizes.small];
     [self.containerView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.bottomSectionBackground withOffset:-MarginSizes.small];
@@ -172,6 +184,8 @@ const CGFloat PostBaseCellMargin = 5.0;
         view.translatesAutoresizingMaskIntoConstraints = NO;
         [self.containerView addSubview:view];
         
+        [self.avatarImageView loadImageAtURLAndFlash:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@.tumblr.com/avatar/64", _post.blogName]]];
+        
         [view autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
         
         self.containerView.backgroundColor = [self colorForPostType:self.post.type];
@@ -186,9 +200,10 @@ const CGFloat PostBaseCellMargin = 5.0;
 - (UIColor *)colorForPostType:(NSNumber *)postType {
     BSMPostType type = [postType integerValue];
     switch (type) {
-        case BSMPostTypeText:
+        case BSMPostTypeLink:
         case BSMPostTypePhoto:
             return nil;
+        case BSMPostTypeText:
         case BSMPostTypeAudio:
         case BSMPostTypeAnswer:
         case BSMPostTypeVideo:

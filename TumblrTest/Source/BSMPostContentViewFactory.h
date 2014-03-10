@@ -12,4 +12,5 @@
 
 @interface BSMPostContentViewFactory : NSObject
 + (UIView *)contentViewForPost:(BSMPost *)post constrainedToWidth:(CGFloat)width;
++ (CGFloat)defaultElementsHeight;
 @end
