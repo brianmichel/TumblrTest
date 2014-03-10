@@ -12,6 +12,7 @@
 #import "BSMPost.h"
 #import "BSMSimpleLabelCollectionViewCell.h"
 #import "NSDateFormatter+BSM.h"
+#import "NSNumberFormatter+BSM.h"
 #import "NSString+BSM.h"
 #import "BSMPostContentViewFactory.h"
 #import "BSMBaseContentView.h"
@@ -193,7 +194,7 @@
     if (![_post isEqual:post]) {
         _post = post;
         NSString *notesString = [_post.notes integerValue] > 1 || [_post.notes integerValue] == 0 ? @"Notes" : @"Note";
-        self.notesLabel.text = [NSString stringWithFormat:@"%@ %@", _post.notes, notesString];
+        self.notesLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumberFormatter bsm_standardNumberFormatter] stringFromNumber:_post.notes], notesString];
         self.blogNameLabel.text = _post.blogName;
         
         for (BSMBaseContentView *subview in [self.containerView subviews]) {

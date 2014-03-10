@@ -39,6 +39,7 @@
 		48C4A69F18CB623F00AF6950 /* BSMPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C4A69E18CB623F00AF6950 /* BSMPost.m */; };
 		48C4A6AA18CB790800AF6950 /* BSMTumblrDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C4A6A918CB790800AF6950 /* BSMTumblrDatabase.m */; };
 		48C4A6B018CB895F00AF6950 /* YapDatabaseView+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C4A6AF18CB895F00AF6950 /* YapDatabaseView+BSM.m */; };
+		48E2327318CD6CCF004CE60D /* NSNumberFormatter+BSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E2327218CD6CCF004CE60D /* NSNumberFormatter+BSM.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,8 @@
 		48C4A6A918CB790800AF6950 /* BSMTumblrDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSMTumblrDatabase.m; path = Source/BSMTumblrDatabase.m; sourceTree = "<group>"; };
 		48C4A6AE18CB895F00AF6950 /* YapDatabaseView+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "YapDatabaseView+BSM.h"; path = "Source/YapDatabaseView+BSM.h"; sourceTree = "<group>"; };
 		48C4A6AF18CB895F00AF6950 /* YapDatabaseView+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "YapDatabaseView+BSM.m"; path = "Source/YapDatabaseView+BSM.m"; sourceTree = "<group>"; };
+		48E2327118CD6CCF004CE60D /* NSNumberFormatter+BSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumberFormatter+BSM.h"; path = "Source/NSNumberFormatter+BSM.h"; sourceTree = "<group>"; };
+		48E2327218CD6CCF004CE60D /* NSNumberFormatter+BSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNumberFormatter+BSM.m"; path = "Source/NSNumberFormatter+BSM.m"; sourceTree = "<group>"; };
 		ABCDB4E400144746A9FE27E9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB45CAA838AD4A2F82F4A47B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -279,6 +282,8 @@
 				4867079418CD47B600AEF074 /* NSString+BSM.m */,
 				4867079618CD534B00AEF074 /* UIScrollView+BSM.h */,
 				4867079718CD534B00AEF074 /* UIScrollView+BSM.m */,
+				48E2327118CD6CCF004CE60D /* NSNumberFormatter+BSM.h */,
+				48E2327218CD6CCF004CE60D /* NSNumberFormatter+BSM.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -433,6 +438,7 @@
 				48BC710418CB5B3F00706E01 /* BSMAppDelegate.m in Sources */,
 				48A02C3518CD0EEF000C3FFA /* UIImageView+BSM.m in Sources */,
 				48C4A6AA18CB790800AF6950 /* BSMTumblrDatabase.m in Sources */,
+				48E2327318CD6CCF004CE60D /* NSNumberFormatter+BSM.m in Sources */,
 				48BC710A18CB5B3F00706E01 /* BSMCollectionViewController.m in Sources */,
 				482919B118CBFC58003117A8 /* BSMBasePostsViewController.m in Sources */,
 				48C4A6B018CB895F00AF6950 /* YapDatabaseView+BSM.m in Sources */,
