@@ -14,7 +14,7 @@
 #import "BSMPostContentViewFactory.h"
 #import "BSMBaseContentView.h"
 
-#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue" size:15.0]
+#define POST_LABEL_FONT [UIFont fontWithName:@"HelveticaNeue" size:20.0]
 #define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:18.0]
 
 const CGFloat PostBaseCellMargin = 5.0;
@@ -24,6 +24,9 @@ const CGFloat PostBaseCellMargin = 5.0;
 @property (strong) UILabel *dateLabel;
 @property (strong) UILabel *blogNameLabel;
 @property (strong) UICollectionView *tagsCollectionView;
+
+@property (strong) UIView *bottomSectionBackground;
+@property (strong) UIView *dividerView;
 
 @property (assign) BOOL didUpdateConstraints;
 @end
@@ -42,6 +45,9 @@ const CGFloat PostBaseCellMargin = 5.0;
         self.containerView = [UIView newAutoLayoutView];
         self.containerView.backgroundColor = [UIColor lightGrayColor];
         
+        self.dividerView = [UIView newAutoLayoutView];
+        self.dividerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.2];
+        
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         self.tagsCollectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:layout];
@@ -59,14 +65,20 @@ const CGFloat PostBaseCellMargin = 5.0;
         
         self.dateLabel = [UILabel newAutoLayoutView];
         self.dateLabel.textAlignment = NSTextAlignmentCenter;
+        self.dateLabel.textColor = [UIColor darkGrayColor];
         self.dateLabel.font = POST_LABEL_FONT;
         
+        self.bottomSectionBackground = [UIView newAutoLayoutView];
+        self.bottomSectionBackground.backgroundColor = [UIColor bsm_tumblrLightGray];
+        
+        [self.contentView addSubview:self.bottomSectionBackground];
         [self.contentView addSubview:self.blogNameLabel];
-        [self.contentView addSubview:self.dateLabel];
-        [self.contentView addSubview:self.tagsCollectionView];
+        [self.bottomSectionBackground addSubview:self.tagsCollectionView];
+        [self.bottomSectionBackground addSubview:self.dividerView];
         [self.contentView addSubview:self.containerView];
         
         self.layer.cornerRadius = 4.0;
+        self.layer.masksToBounds = YES;
     }
     return self;
 }
@@ -79,25 +91,30 @@ const CGFloat PostBaseCellMargin = 5.0;
     }
     
     [self.blogNameLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
-    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
-    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:PostBaseCellMargin];
+    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:MarginSizes.small];
+    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:MarginSizes.small];
+    [self.blogNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:MarginSizes.small];
     
-    [self.dateLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:PostBaseCellMargin];
-    [self.dateLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
+    [self.bottomSectionBackground setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.bottomSectionBackground autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0];
+    [self.bottomSectionBackground autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0];
+    [self.bottomSectionBackground autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
+    [self.tagsCollectionView autoSetDimension:ALDimensionHeight toSize:35.0];
+    
+    [self.dividerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.dividerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
+    [self.dividerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.0];
+    [self.dividerView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
+    [self.dividerView autoSetDimension:ALDimensionHeight toSize:(1 / [UIScreen mainScreen].scale)];
     
     [self.tagsCollectionView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
-    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:PostBaseCellMargin];
-    [self.tagsCollectionView autoPinEdge:ALEdgeTrailing toEdge:ALEdgeLeading ofView:self.dateLabel withOffset:-PostBaseCellMargin];
-    [self.tagsCollectionView autoConstrainAttribute:ALDimensionHeight toAttribute:ALDimensionHeight ofView:self.dateLabel];
+    [self.tagsCollectionView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, MarginSizes.small, 0, MarginSizes.small)];
     
     [self.containerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.containerView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.blogNameLabel withOffset:round(PostBaseCellMargin/2)];
-    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:PostBaseCellMargin];
-    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:PostBaseCellMargin];
-    [self.containerView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.dateLabel];
+    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:MarginSizes.small];
+    [self.containerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:MarginSizes.small];
+    [self.containerView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.bottomSectionBackground withOffset:-MarginSizes.small];
     
     self.didUpdateConstraints = YES;
 }

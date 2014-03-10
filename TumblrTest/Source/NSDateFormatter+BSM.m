@@ -16,7 +16,7 @@
         shortRelativeDateFormatter = [[NSDateFormatter alloc] init];
         shortRelativeDateFormatter.doesRelativeDateFormatting = YES;
         shortRelativeDateFormatter.dateStyle = NSDateFormatterShortStyle;
-        shortRelativeDateFormatter.timeStyle = NSDateFormatterShortStyle;
+        shortRelativeDateFormatter.timeStyle = NSDateFormatterNoStyle;
     });
     return shortRelativeDateFormatter;
 }

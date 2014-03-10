@@ -21,4 +21,5 @@ extern const struct MarginSizes {
 @interface UIColor (BSM)
 + (UIColor *)bsm_TumblrBlue;
 + (UIColor *)bsm_tumblrGreen;
++ (UIColor *)bsm_tumblrLightGray;
 @end

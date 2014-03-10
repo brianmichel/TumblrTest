@@ -79,7 +79,7 @@
 
 - (NSAttributedString *)attributedButtonTitleForLinkPost:(BSMLinkPost *)post {
     NSString *title = post.title;
-    NSString *host = [post.URL host];
+    NSString *host = [[post.URL host] stringByAppendingString:@" \u21fe"];
     
     NSString *combinedString = [NSString stringWithFormat:@"%@ \n\n %@", title, host];
     

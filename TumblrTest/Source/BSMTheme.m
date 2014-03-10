@@ -29,4 +29,8 @@ const struct MarginSizes MarginSizes = {
     return [UIColor colorWithRed:0.337 green:0.737 blue:0.541 alpha:1.0];
 }
 
++ (UIColor *)bsm_tumblrLightGray {
+    return [UIColor colorWithRed:0.827 green:0.827 blue:0.827 alpha:1.0];
+}
+
 @end
