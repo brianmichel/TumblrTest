@@ -119,12 +119,7 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
 
 #pragma mark - Helpers
 - (NSNumber *)mostRecentID {
-    NSString *group = [self.mappings groupForSection:0];
-    __block BSMPost *post = nil;
-    [self.connection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        post = [[transaction ext:DashboardViewID] objectAtIndex:0 inGroup:group];
-    }];
-    
+    BSMPost *post = [self postForIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     return post.postID;
 }
 
