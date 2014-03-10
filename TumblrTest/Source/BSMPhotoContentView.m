@@ -39,7 +39,7 @@
         if (photo) {
             NSArray *sizes = photo.sizes;
             BSMPhotoSize *firstSize = sizes[1];
-            [self.imageView loadImageAtURLAndFlash:firstSize.URL];
+            [self.imageView bsm_loadImageAtURLAndFlash:firstSize.URL];
         }
     }
 }

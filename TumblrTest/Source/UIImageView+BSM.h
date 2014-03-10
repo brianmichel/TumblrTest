@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImageView (BSM)
-- (void)loadImageAtURLAndFlash:(NSURL *)url;
+- (void)bsm_loadImageAtURLAndFlash:(NSURL *)url;
 @end

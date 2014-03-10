@@ -186,7 +186,7 @@
         [self.containerView addSubview:view];
         [view autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
         
-        [self.avatarImageView loadImageAtURLAndFlash:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@.tumblr.com/avatar/64", _post.blogName]]];
+        [self.avatarImageView bsm_loadImageAtURLAndFlash:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@.tumblr.com/avatar/64", _post.blogName]]];
         
         self.containerView.backgroundColor = [self colorForPostType:self.post.type];
         [self setNeedsUpdateConstraints];

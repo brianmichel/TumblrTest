@@ -10,7 +10,7 @@
 #import "UIImageView+BSM.h"
 
 @implementation UIImageView (BSM)
-- (void)loadImageAtURLAndFlash:(NSURL *)url {
+- (void)bsm_loadImageAtURLAndFlash:(NSURL *)url {
     
     __weak typeof(self) weak = self;
     [[SDWebImageManager sharedManager] downloadWithURL:url options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
