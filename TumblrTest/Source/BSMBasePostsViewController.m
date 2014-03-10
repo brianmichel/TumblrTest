@@ -70,7 +70,7 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
     self.loading = YES;
     
     __weak typeof(self) weak = self;
-    [[TMAPIClient sharedInstance] dashboard:parameters callback:^(id dashboard, NSError *error) {
+    [[TMAPIClient sharedInstance] dashboard:[parameters mtl_dictionaryByAddingEntriesFromDictionary:@{@"notes_info" : @YES}] callback:^(id dashboard, NSError *error) {
         if (dashboard) {
             dispatch_async(self.processingQueue, ^{
                 NSArray *posts = dashboard[@"posts"];

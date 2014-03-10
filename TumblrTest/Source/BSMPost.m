@@ -86,7 +86,8 @@ static NSDictionary *stringToPostTypeMapping = nil;
              @"shortURL" : @"short_url",
              @"date" : @"timestamp",
              @"tags" : @"tags",
-             @"type" : @"type"
+             @"type" : @"type",
+             @"notes" : @"note_count"
              };
 }
 

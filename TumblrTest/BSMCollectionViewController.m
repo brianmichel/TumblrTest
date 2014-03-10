@@ -41,7 +41,7 @@
         self.statusBarBackground.backgroundColor = [UIColor bsm_TumblrBlue];
         
         //I really wish I could figure out why topLayoutGuide isn't set :(
-        self.collectionView.contentInset = UIEdgeInsetsMake(20, 10, 10, 10);
+        self.collectionView.contentInset = UIEdgeInsetsMake(25, 10, 10, 10);
         self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(20, 0, 0, -4);
         
     }

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, BSMPostType) {
 @property (copy, readonly) NSURL *postURL;
 @property (copy, readonly) NSURL *shortURL;
 @property (copy, readonly) NSDate *date;
+@property (copy, readonly) NSNumber *notes;
 @property (copy, readonly) NSArray *tags;
 @property (copy, readonly) NSNumber *type;
 

@@ -17,18 +17,19 @@
 #import "BSMBaseContentView.h"
 
 #define POST_LABEL_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Medium" size:16.0]
+#define POST_NOTES_FONT [UIFont fontWithName:@"AppleSDGothicNeo-SemiBold" size:16.0]
 #define POST_BLOG_FONT [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:18.0]
 
 @interface BSMPostBaseCell () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, readwrite) UIView *containerView;
-@property (strong) UILabel *dateLabel;
+@property (strong) UILabel *notesLabel;
 @property (strong) UILabel *blogNameLabel;
 @property (strong) UICollectionView *tagsCollectionView;
-
 @property (strong) UIImageView *avatarImageView;
 
 @property (strong) UIView *bottomSectionBackground;
-@property (strong) UIView *dividerView;
+@property (strong) UIView *topDividerView;
+@property (strong) UIView *notesDividerView;
 
 @property (assign) BOOL didUpdateConstraints;
 @end
@@ -50,8 +51,10 @@
         self.containerView = [UIView newAutoLayoutView];
         self.containerView.backgroundColor = [UIColor lightGrayColor];
         
-        self.dividerView = [UIView newAutoLayoutView];
-        self.dividerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.2];
+        self.topDividerView = [UIView newAutoLayoutView];
+        self.notesDividerView = [UIView newAutoLayoutView];
+
+        self.topDividerView.backgroundColor = self.notesDividerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.2];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -69,10 +72,10 @@
         self.blogNameLabel.font = POST_BLOG_FONT;
         self.blogNameLabel.textColor = [UIColor crayolaBlackCoralPearlColor];
         
-        self.dateLabel = [UILabel newAutoLayoutView];
-        self.dateLabel.textAlignment = NSTextAlignmentCenter;
-        self.dateLabel.textColor = [UIColor darkGrayColor];
-        self.dateLabel.font = POST_LABEL_FONT;
+        self.notesLabel = [UILabel newAutoLayoutView];
+        self.notesLabel.textAlignment = NSTextAlignmentCenter;
+        self.notesLabel.textColor = [UIColor darkGrayColor];
+        self.notesLabel.font = POST_NOTES_FONT;
         
         self.bottomSectionBackground = [UIView newAutoLayoutView];
         self.bottomSectionBackground.backgroundColor = [UIColor bsm_tumblrLightGray];
@@ -81,7 +84,9 @@
         [self.contentView addSubview:self.blogNameLabel];
         [self.contentView addSubview:self.avatarImageView];
         [self.bottomSectionBackground addSubview:self.tagsCollectionView];
-        [self.bottomSectionBackground addSubview:self.dividerView];
+        [self.bottomSectionBackground addSubview:self.topDividerView];
+        [self.bottomSectionBackground addSubview:self.notesDividerView];
+        [self.bottomSectionBackground addSubview:self.notesLabel];
         [self.contentView addSubview:self.containerView];
         
         self.layer.cornerRadius = 4.0;
@@ -112,16 +117,30 @@
     [self.bottomSectionBackground autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0];
     [self.bottomSectionBackground autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0];
     [self.bottomSectionBackground autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
-    [self.tagsCollectionView autoSetDimension:ALDimensionHeight toSize:35.0];
     
-    [self.dividerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.dividerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
-    [self.dividerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.0];
-    [self.dividerView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
-    [self.dividerView autoSetDimension:ALDimensionHeight toSize:(1 / [UIScreen mainScreen].scale)];
+    [self.topDividerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.topDividerView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
+    [self.topDividerView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.0];
+    [self.topDividerView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
+    [self.topDividerView autoSetDimension:ALDimensionHeight toSize:(1 / [UIScreen mainScreen].scale)];
     
     [self.tagsCollectionView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.tagsCollectionView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.0];
+    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
+    [self.tagsCollectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
+    [self.tagsCollectionView autoPinEdge:ALEdgeTrailing toEdge:ALEdgeLeading ofView:self.notesLabel withOffset:-MarginSizes.small];
+    [self.tagsCollectionView autoSetDimension:ALDimensionHeight toSize:35.0];
+    
+    [self.notesLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.notesLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:MarginSizes.small];
+    [self.notesLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
+    [self.notesLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
+    
+    [self.notesDividerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.notesDividerView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:MarginSizes.small];
+    [self.notesDividerView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:MarginSizes.small];
+    [self.notesDividerView autoSetDimension:ALDimensionWidth toSize:(1 / [UIScreen mainScreen].scale)];
+    [self.notesDividerView autoPinEdge:ALEdgeLeading toEdge:ALEdgeLeading ofView:self.notesLabel withOffset:-MarginSizes.small];
     
     [self.containerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.containerView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.avatarImageView withOffset:round(MarginSizes.small/2)];
@@ -173,7 +192,8 @@
 - (void)setPost:(BSMPost *)post {
     if (![_post isEqual:post]) {
         _post = post;
-        self.dateLabel.text = [[NSDateFormatter bsm_shortRelativeDateFormatter] stringFromDate:_post.date];
+        NSString *notesString = [_post.notes integerValue] > 1 || [_post.notes integerValue] == 0 ? @"Notes" : @"Note";
+        self.notesLabel.text = [NSString stringWithFormat:@"%@ %@", _post.notes, notesString];
         self.blogNameLabel.text = _post.blogName;
         
         for (BSMBaseContentView *subview in [self.containerView subviews]) {
