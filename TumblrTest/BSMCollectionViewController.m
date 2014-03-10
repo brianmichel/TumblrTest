@@ -46,6 +46,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    //send to back, like the tumblr app
+    [self.collectionView sendSubviewToBack:self.refreshControl];
     [self.refreshControl beginRefreshing];
     [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentOffset.x, -self.refreshControl.frame.size.height) animated:YES];
     [self didBeginRefreshing:self.refreshControl];

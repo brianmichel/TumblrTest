@@ -184,10 +184,9 @@
         UIView *view = [BSMPostContentViewFactory contentViewForPost:_post constrainedToWidth:0.0];
         view.translatesAutoresizingMaskIntoConstraints = NO;
         [self.containerView addSubview:view];
+        [view autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
         
         [self.avatarImageView loadImageAtURLAndFlash:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@.tumblr.com/avatar/64", _post.blogName]]];
-        
-        [view autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
         
         self.containerView.backgroundColor = [self colorForPostType:self.post.type];
         [self setNeedsUpdateConstraints];
