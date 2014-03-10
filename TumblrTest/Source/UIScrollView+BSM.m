@@ -10,6 +10,10 @@
 #import "UIScrollView+BSM.h"
 
 @implementation UIScrollView (BSM)
+
+//This seems a little like the may fall into the gray area with Apple
+//but looking at it more and more, I don't think it's illegal, however,
+//it has the potential to fail in the future
 - (UIView *)bsm_scrollIndicatorForPosition:(ScrollIndicatorPosition)position {
     [self flashScrollIndicators];
     UIView *viewToReturn = nil;
