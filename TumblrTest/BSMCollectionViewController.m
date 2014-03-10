@@ -19,6 +19,7 @@
 @interface BSMCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong) UICollectionView *collectionView;
 @property (strong) UIView *statusBarBackground;
+@property (strong) UIActivityIndicatorView *loadingNextSpinner;
 @end
 
 @implementation BSMCollectionViewController
@@ -31,7 +32,7 @@
         self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         [self.collectionView registerClass:[BSMPostBaseCell class] forCellWithReuseIdentifier:ViewControllerCellID];
-        self.collectionView.backgroundColor = [UIColor bsm_TumblrBlue];
+        self.collectionView.backgroundColor = [UIColor clearColor];
         self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
@@ -40,8 +41,12 @@
         self.statusBarBackground = [UIView newAutoLayoutView];
         self.statusBarBackground.backgroundColor = [UIColor bsm_TumblrBlue];
         
+        self.loadingNextSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        self.loadingNextSpinner.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.loadingNextSpinner startAnimating];
+        self.loadingNextSpinner.alpha = 0.0;
         //I really wish I could figure out why topLayoutGuide isn't set :(
-        self.collectionView.contentInset = UIEdgeInsetsMake(25, 10, 10, 10);
+        self.collectionView.contentInset = UIEdgeInsetsMake(25, 10, self.loadingNextSpinner.frame.size.height + (MarginSizes.large * 2.0), 10);
         self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(20, 0, 0, -4);
         
     }
@@ -50,6 +55,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor bsm_TumblrBlue];
+    [self.view addSubview:self.loadingNextSpinner];
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.statusBarBackground];
 }
@@ -72,6 +79,23 @@
     [self.statusBarBackground autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0.0];
     [self.statusBarBackground autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.0];
     [self.statusBarBackground autoSetDimension:ALDimensionHeight toSize:20.0];
+    
+    [self.loadingNextSpinner autoAlignAxis:ALAxisVertical toSameAxisOfView:self.view];
+    [self.loadingNextSpinner autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:MarginSizes.large];
+}
+
+- (void)fetchNextPageOfPosts {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.loadingNextSpinner.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [super fetchNextPageOfPosts];
+    }];
+}
+
+- (void)didEndRefreshing {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.loadingNextSpinner.alpha = 0.0;
+    }];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

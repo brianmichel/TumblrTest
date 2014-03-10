@@ -31,6 +31,7 @@ extern const CGFloat BSMViewControllerScrollLoadThreshhold;
 - (void)fetchPostsWithParameters:(NSDictionary *)parameters;
 - (void)yapDatabaseModified:(NSNotification *)notification;
 - (void)didBeginRefreshing:(UIRefreshControl *)control;
+- (void)didEndRefreshing;
 
 - (BSMPost *)postForIndexPath:(NSIndexPath *)indexPath;
 @end

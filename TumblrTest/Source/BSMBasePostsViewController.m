@@ -87,6 +87,7 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
         //until the next swing of the runloop to do anything. :(
         //Seems like others are experiencing this: http://blog.wednesdaynight.org/2014/2/2/endRefreshing-while-decelerating
         [weak.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0];
+        [weak didEndRefreshing];
     }];
 }
 
@@ -94,6 +95,8 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
 - (void)didBeginRefreshing:(UIRefreshControl *)control {
     [self fetchNewPostsSinceMostRecentPost];
 }
+
+- (void)didEndRefreshing {}
 
 - (BSMPost *)postForIndexPath:(NSIndexPath *)indexPath {
     __block BSMPost *post = nil;
