@@ -79,9 +79,11 @@ const CGFloat BSMViewControllerScrollLoadThreshhold = 0.99;
                     BSMPost *postModel = [MTLJSONAdapter modelOfClass:[BSMPost class] fromJSONDictionary:post error:&error];
                     [[BSMTumblrDatabase sharedDatabase] savePost:postModel withCallback:nil];
                 }
+                weak.loading = NO;
             });
+        } else {
+            weak.loading = NO;
         }
-        weak.loading = NO;
         
         //well endRefresh seems to really like stopping scrolling events, this forces it to wait
         //until the next swing of the runloop to do anything. :(
