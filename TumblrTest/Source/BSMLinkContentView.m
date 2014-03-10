@@ -44,7 +44,7 @@
 - (void)updateConstraints {
     [super updateConstraints];
     [self.linkButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.linkButton autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    [self.linkButton autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(MarginSizes.small, MarginSizes.small, MarginSizes.small, MarginSizes.small)];
 }
 
 - (void)layoutSubviews {
