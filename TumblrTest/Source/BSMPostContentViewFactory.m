@@ -12,16 +12,8 @@
 #import "BSMLinkContentView.h"
 #import "BSMPost.h"
 
-static NSCache *postContentViewCache = nil;
-
 @implementation BSMPostContentViewFactory
 + (UIView *)contentViewForPost:(BSMPost *)post constrainedToWidth:(CGFloat)width {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        postContentViewCache = [[NSCache alloc] init];
-    });
-    
-    
     BSMBaseContentView *contentView = nil;
 
     switch ([post.type integerValue]) {
